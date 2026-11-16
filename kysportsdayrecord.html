@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="zh-HK" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>教業中學田徑運動會最高紀錄核對系統 (1984–2025)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Canvas Confetti for Record Breaking Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg-obsidian: #000000;
+      --card-glass: rgba(24, 24, 29, 0.75);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --apple-blue: #2997ff;
+      --apple-pink-purple: #e879f9;
+      --apple-gold: #ffd60a;
+      --apple-green: #30d158;
+      --theme-accent: #2997ff;
+      --theme-accent-soft: rgba(41, 151, 255, 0.18);
+      --theme-accent-border: rgba(41, 151, 255, 0.45);
+      --theme-glow: rgba(41, 151, 255, 0.28);
+    }
+
+    body.theme-female {
+      --theme-accent: #e879f9;
+      --theme-accent-soft: rgba(232, 121, 249, 0.2);
+      --theme-accent-border: rgba(232, 121, 249, 0.55);
+      --theme-glow: rgba(217, 70, 239, 0.32);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-obsidian);
+      color: #f5f5f7;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "PingFang HK", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Apple Keynote Spotlight Background */
+    .ambient-glow {
+      position: fixed;
+      top: -22vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120vw;
+      height: 68vh;
+      background: radial-gradient(ellipse at center, rgba(41, 151, 255, 0.22) 0%, rgba(56, 189, 248, 0.08) 42%, rgba(0, 0, 0, 0) 75%);
+      pointer-events: none;
+      z-index: 0;
+      transition: background 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ambient-glow.female-mode {
+      background: radial-gradient(ellipse at center, rgba(232, 121, 249, 0.28) 0%, rgba(192, 132, 252, 0.14) 42%, rgba(244, 114, 182, 0.06) 60%, rgba(0, 0, 0, 0) 78%);
+    }
+
+    .ambient-glow.gold-mode {
+      background: radial-gradient(ellipse at center, rgba(255, 214, 10, 0.30) 0%, rgba(255, 159, 10, 0.14) 45%, rgba(0, 0, 0, 0) 75%) !important;
+    }
+
+    /* Apple Bento Card Styling - Responsive Radius & Shadow */
+    .bento-card {
+      background: var(--card-glass);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      box-shadow: 0 20px 42px -12px rgba(0, 0, 0, 0.75), inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @media (min-width: 640px) {
+      .bento-card {
+        border-radius: 28px;
+      }
+    }
+
+    .bento-card-female-accent {
+      border-color: rgba(232, 121, 249, 0.32);
+      box-shadow: 0 22px 48px -12px rgba(168, 85, 247, 0.24), inset 0 1px 0 0 rgba(245, 208, 254, 0.22);
+    }
+
+    .bento-card-male-accent {
+      border-color: rgba(56, 189, 248, 0.30);
+      box-shadow: 0 22px 48px -12px rgba(14, 165, 233, 0.22), inset 0 1px 0 0 rgba(186, 230, 253, 0.2);
+    }
+
+    /* Record Broken Celebratory Aura */
+    .bento-record-broken {
+      border-color: rgba(255, 214, 10, 0.78) !important;
+      box-shadow: 0 0 65px -10px rgba(255, 214, 10, 0.38), inset 0 1px 0 0 rgba(255, 214, 10, 0.45) !important;
+      background: linear-gradient(145deg, rgba(45, 36, 10, 0.86) 0%, rgba(20, 20, 24, 0.92) 100%) !important;
+    }
+
+    .bento-record-tied {
+      border-color: var(--theme-accent-border) !important;
+      box-shadow: 0 0 55px -10px var(--theme-glow), inset 0 1px 0 0 rgba(255, 255, 255, 0.35) !important;
+    }
+
+    /* Apple Gradients for Typography */
+    .text-titanium {
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-male-hero {
+      background: linear-gradient(135deg, #ffffff 0%, #bae6fd 48%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 6px 24px rgba(56, 189, 248, 0.25));
+    }
+
+    .text-female-hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f5d0fe 45%, #e879f9 80%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 6px 24px rgba(232, 121, 249, 0.32));
+    }
+
+    .text-gold-pro {
+      background: linear-gradient(135deg, #fff6cc 0%, #ffd60a 45%, #ff9f0a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-blue-pro {
+      background: linear-gradient(135deg, #e0f2fe 0%, #38bdf8 50%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-pink-purple-pro {
+      background: linear-gradient(135deg, #fae8ff 0%, #e879f9 50%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Tabular numbers for accurate sports timing */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+    }
+
+    /* Segmented Pill Controls */
+    .seg-pill {
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .seg-pill:active {
+      transform: scale(0.97);
+    }
+    .seg-pill.active-male {
+      background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.45);
+    }
+    .seg-pill.active-female {
+      background: linear-gradient(135deg, #c026d3 0%, #e879f9 55%, #f472b6 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(232, 121, 249, 0.5);
+    }
+    .seg-pill.active-group-male {
+      background: #f5f5f7;
+      color: #000000;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+    }
+    .seg-pill.active-group-female {
+      background: linear-gradient(135deg, #fdf4ff 0%, #f5d0fe 100%);
+      color: #701a75;
+      box-shadow: 0 4px 16px rgba(232, 121, 249, 0.45);
+    }
+
+    /* Event Chip Selector */
+    .event-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .event-chip:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+    .event-chip:active {
+      transform: scale(0.97);
+    }
+    .event-chip.selected-male {
+      background: linear-gradient(145deg, rgba(14, 165, 233, 0.28) 0%, rgba(2, 132, 199, 0.14) 100%);
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    .event-chip.selected-female {
+      background: linear-gradient(145deg, rgba(232, 121, 249, 0.30) 0%, rgba(168, 85, 247, 0.16) 100%);
+      border-color: #e879f9;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(232, 121, 249, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    /* Hide scrollbar for horizontal pill bars on mobile */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Custom Scrollbar for desktop */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3f3f46;
+    }
+
+    /* Number Input Spinners Hide */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    /* Mobile bottom safe area padding */
+    .safe-bottom-bar {
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
+
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.88; transform: scale(1.015); }
+    }
+    .animate-keynote-pulse {
+      animation: pulse-subtle 2.6s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen selection:bg-blue-500 selection:text-white pb-28 sm:pb-24">
+
+  <!-- Ambient Apple Keynote Backlight -->
+  <div id="ambientGlow" class="ambient-glow"></div>
+
+  <!-- Sticky Top Apple Glass Navigation Bar -->
+  <header class="sticky top-0 z-50 backdrop-blur-2xl bg-black/75 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
+      <div class="flex items-center space-x-2.5 min-w-0">
+        <div id="brandLogoBox" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/25 shrink-0 transition-all duration-500">
+          <i class="fa-solid fa-stopwatch-20 text-white text-base sm:text-lg"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center space-x-1.5 sm:space-x-2">
+            <span class="font-bold tracking-tight text-white text-sm sm:text-base truncate">教業中學田徑運動會</span>
+            <span id="navThemeBadge" class="text-[9px] sm:text-[10px] uppercase tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 font-semibold border border-sky-400/30 shrink-0 transition-all">Pro</span>
+          </div>
+          <p class="text-[11px] text-zinc-400 hidden sm:block truncate">Kao Yip Middle School Athletics Record System (1984–2025)</p>
+        </div>
+      </div>
+
+      <!-- Top Quick Jumps (Compact on Mobile, Full on Desktop) -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
+        <a href="#checkerSection" class="text-xs sm:text-sm px-2.5 sm:px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-medium transition flex items-center">
+          <i class="fa-solid fa-bolt text-amber-400 sm:mr-1.5"></i>
+          <span class="hidden sm:inline">即時核對</span>
+        </a>
+        <a href="#honorRollSection" id="navHonorBtn" class="text-xs sm:text-sm px-2.5 sm:px-3.5 py-1.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 font-medium transition flex items-center">
+          <i class="fa-solid fa-trophy mr-1"></i>
+          <span class="hidden xs:inline sm:inline">榮譽榜</span>
+          <span id="honorCountBadge" class="ml-1 px-1.5 py-0.2 bg-amber-400 text-black rounded-full text-[10px] sm:text-[11px] font-extrabold">0</span>
+        </a>
+        <a href="#databaseSection" class="text-xs sm:text-sm px-2.5 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-zinc-300 font-medium transition hidden sm:flex items-center">
+          <i class="fa-solid fa-layer-group mr-1.5"></i>歷屆紀錄總覽
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="relative z-10 max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 sm:pt-10">
+
+    <!-- Apple Keynote Hero Header (Compact on Mobile, Grand on Desktop) -->
+    <section class="text-center max-w-4xl mx-auto mb-5 sm:mb-10">
+      <div id="heroPillBadge" class="inline-flex items-center space-x-1.5 sm:space-x-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/25 text-[11px] sm:text-xs text-sky-200 mb-2.5 sm:mb-4 transition-all duration-500 max-w-full">
+        <span id="heroPingDot" class="w-2 h-2 rounded-full bg-sky-400 animate-ping shrink-0"></span>
+        <span id="heroPillText" class="font-semibold tracking-wide truncate">MEN'S DIVISION · 男子組最高紀錄 (1984–2025)</span>
+      </div>
+      <h1 id="heroMainTitle" class="text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-titanium leading-tight">
+        突破極限，見證新紀錄誕生。
+      </h1>
+    </section>
+
+    <!-- ==========================================================
+         SECTION 1: INTERACTIVE RECORD CHECKER BENTO
+         Mobile Flow: 1.Select -> 2.Standing Record -> 3.Input -> 4.Verdict
+         Desktop Flow: Left 7 Cols (1.Select + 3.Input) | Right 5 Cols (2.Standing + 4.Verdict)
+         ========================================================== -->
+    <section id="checkerSection" class="scroll-mt-16 mb-10 sm:mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
+
+        <!-- CARD 1: STEP 1 Group & Event Selection (Mobile order-1, Desktop Left Top) -->
+        <div id="step1Card" class="order-1 lg:order-none lg:col-span-7 bento-card p-4 sm:p-7">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4 sm:mb-5">
+            <div class="flex items-center space-x-2">
+              <span id="step1BadgeNum" class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-bold flex items-center justify-center shrink-0">1</span>
+              <h2 class="text-base sm:text-xl font-bold text-white tracking-tight">選擇組別與舉辦項目</h2>
+            </div>
+            <span id="currentSelectionPill" class="text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/35 text-sky-200 transition-all">
+              男子組 · 男A · 100m
+            </span>
+          </div>
+
+          <!-- Gender & Division Bar -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 sm:gap-3 mb-4 sm:mb-5">
+            <!-- Gender Toggle -->
+            <div class="sm:col-span-5 bg-black/60 p-1.5 rounded-2xl border border-white/10 grid grid-cols-2 gap-1.5">
+              <button type="button" id="btnGenderM" onclick="setGender('M')" class="seg-pill active-male py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-mars"></i>
+                <span>男子組</span>
+              </button>
+              <button type="button" id="btnGenderF" onclick="setGender('F')" class="seg-pill text-zinc-400 hover:text-white py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-venus"></i>
+                <span>女子組</span>
+              </button>
+            </div>
+
+            <!-- Age Group A/B/C/D/E Toggle (Large touch targets on mobile) -->
+            <div class="sm:col-span-7 bg-black/60 p-1.5 rounded-2xl border border-white/10 grid grid-cols-5 gap-1">
+              <button type="button" onclick="setGroup('A')" id="btnGroupA" class="group-pill seg-pill active-group-male py-2.5 rounded-xl font-extrabold text-xs sm:text-sm">A 組</button>
+              <button type="button" onclick="setGroup('B')" id="btnGroupB" class="group-pill seg-pill text-zinc-400 hover:text-white py-2.5 rounded-xl font-extrabold text-xs sm:text-sm">B 組</button>
+              <button type="button" onclick="setGroup('C')" id="btnGroupC" class="group-pill seg-pill text-zinc-400 hover:text-white py-2.5 rounded-xl font-extrabold text-xs sm:text-sm">C 組</button>
+              <button type="button" onclick="setGroup('D')" id="btnGroupD" class="group-pill seg-pill text-zinc-400 hover:text-white py-2.5 rounded-xl font-extrabold text-xs sm:text-sm">D 組</button>
+              <button type="button" onclick="setGroup('E')" id="btnGroupE" class="group-pill seg-pill text-zinc-400 hover:text-white py-2.5 rounded-xl font-extrabold text-xs sm:text-sm">E 組</button>
+            </div>
+          </div>
+
+          <!-- Event Category Filter Tabs -->
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5 mb-3.5">
+            <div class="flex space-x-1.5 overflow-x-auto no-scrollbar">
+              <button type="button" onclick="setEventFilter('ALL')" id="filterAll" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-white text-black transition shrink-0">全部項目</button>
+              <button type="button" onclick="setEventFilter('TRACK')" id="filterTrack" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition shrink-0">
+                <i class="fa-solid fa-person-running mr-1"></i>徑賽 (計時)
+              </button>
+              <button type="button" onclick="setEventFilter('FIELD')" id="filterField" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition shrink-0">
+                <i class="fa-solid fa-medal mr-1"></i>田賽 (遠/高度)
+              </button>
+            </div>
+            <span id="heldEventsCountLabel" class="text-[11px] font-semibold text-zinc-400 hidden sm:inline">
+              本組共 14 個舉辦項目
+            </span>
+          </div>
+
+          <!-- Event Grid Pills (2 cols on mobile, 3-4 cols on tablet/desktop) -->
+          <div id="eventButtonsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-2.5 max-h-56 sm:max-h-64 overflow-y-auto pr-0.5">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- CARD 2: ULTRA-CLEAR CURRENT HISTORICAL STANDING HERO CARD
+             Mobile: order-2 (Immediately visible after picking event!)
+             Desktop: Right Column Top (lg:col-span-5 lg:col-start-8 lg:row-start-1) -->
+        <div id="standingHeroCard" class="order-2 lg:order-none lg:col-span-5 lg:col-start-8 lg:row-start-1 bento-card bento-card-male-accent p-4 sm:p-7 relative overflow-hidden">
+          <!-- Subtle decorative glow orb inside standing card -->
+          <div id="standingCardOrb" class="-right-12 -top-12 w-44 h-44 rounded-full bg-sky-500/15 blur-3xl pointer-events-none absolute transition-all duration-500"></div>
+
+          <!-- Header Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3 sm:mb-4 relative z-10">
+            <div class="flex items-center space-x-2">
+              <span id="standingDivisionTag" class="px-2.5 sm:px-3 py-1 rounded-lg text-xs font-black tracking-wide bg-sky-500 text-white shadow-sm">
+                男A · 100m
+              </span>
+              <span class="text-xs font-bold uppercase tracking-widest text-zinc-300">現有最高紀錄</span>
+            </div>
+            <span id="recordTypeBadge" class="text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 sm:py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-400/30">
+              徑賽 · 計時
+            </span>
+          </div>
+
+          <!-- GIANT HERO RECORD DISPLAY -->
+          <div id="currentRecordDisplayBox" class="my-2.5 sm:my-4 p-4 sm:p-5 rounded-2xl bg-black/60 border border-white/12 relative z-10">
+            <div class="flex items-baseline justify-between flex-wrap gap-2">
+              <div>
+                <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-zinc-400 block mb-0.5 sm:mb-1">
+                  OFFICIAL STANDING RECORD · 官方最高紀錄成績
+                </span>
+                <div id="currentRecordValue" class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-male-hero tabular-nums leading-none py-0.5 sm:py-1">
+                  00'11"09
+                </div>
+              </div>
+              <div id="currentRecordSubSeconds" class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs sm:text-sm font-extrabold text-white tabular-nums">
+                折合 11.09 秒
+              </div>
+            </div>
+          </div>
+
+          <!-- PROMINENT RECORD HOLDER & DATE BADGES (Compact 2-col on mobile) -->
+          <div class="grid grid-cols-12 gap-2.5 sm:gap-3 relative z-10">
+            <!-- Record Holder Box (7 cols) -->
+            <div class="col-span-7 bg-white/[0.05] border border-white/10 rounded-2xl p-3 sm:p-4 flex items-start space-x-2.5 sm:space-x-3">
+              <div id="holderAvatarIcon" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-sky-500/20 border border-sky-400/40 text-sky-300 flex items-center justify-center shrink-0 text-sm sm:text-base font-bold mt-0.5">
+                <i class="fa-solid fa-medal"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-zinc-400">紀錄創造者 / 隊伍</div>
+                <div id="currentRecordHolder" class="text-sm sm:text-lg font-extrabold text-white mt-0.5 leading-snug break-words">
+                  文建昇
+                </div>
+              </div>
+            </div>
+
+            <!-- Record Date & Standing Years Box (5 cols) -->
+            <div class="col-span-5 bg-white/[0.05] border border-white/10 rounded-2xl p-3 sm:p-4 flex flex-col justify-between">
+              <div class="flex flex-wrap items-center justify-between gap-1">
+                <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-zinc-400">創造時間</span>
+                <span id="recordStandingYearsBadge" class="text-[9px] sm:text-[10px] font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full bg-amber-400/15 text-amber-300 border border-amber-400/30">
+                  保持 33 年
+                </span>
+              </div>
+              <div id="currentRecordDate" class="text-sm sm:text-xl font-black text-white mt-1 tabular-nums">
+                1993年10月
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: STEP 2 Input New Performance Card
+             Mobile: order-3
+             Desktop: Left Column Bottom (lg:col-span-7 lg:col-start-1 lg:row-start-2) -->
+        <div id="step2Card" class="order-3 lg:order-none lg:col-span-7 lg:col-start-1 lg:row-start-2 bento-card p-4 sm:p-7 flex flex-col justify-between scroll-mt-16">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-400 text-xs font-bold flex items-center justify-center shrink-0">2</span>
+                <h2 class="text-base sm:text-xl font-bold text-white tracking-tight">輸入最新比賽成績</h2>
+              </div>
+
+              <!-- Track Input Mode Switcher (Only visible for Track events) -->
+              <div id="trackInputModeToggle" class="flex items-center bg-black/50 p-1 rounded-xl border border-white/10 text-[11px] sm:text-xs">
+                <button type="button" id="btnModeSplit" onclick="setTrackInputMode('SPLIT')" class="px-2.5 py-1 rounded-lg bg-white/15 text-white font-semibold transition">分段 (分/秒/百分秒)</button>
+                <button type="button" id="btnModeSmart" onclick="setTrackInputMode('SMART')" class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white font-semibold transition">快速字串</button>
+              </div>
+            </div>
+
+            <!-- Mobile Inline Target Reference Pill (Helps user see target right above numpad) -->
+            <div class="mb-3.5 px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-xs">
+              <span class="text-zinc-400 font-medium">
+                <i class="fa-solid fa-bullseye text-amber-400 mr-1.5"></i>當前挑戰目標 (<span id="inlineTargetGroupEvent" class="text-zinc-200 font-bold">男A 100m</span>)：
+              </span>
+              <span id="inlineTargetRecordValue" class="font-black text-amber-300 tabular-nums text-sm">00'11"09</span>
+            </div>
+
+            <!-- TRACK INPUT AREA: Mode A (Split mm : ss . xx) with numeric keypad inputmode -->
+            <div id="trackSplitInputBox" class="mb-4 sm:mb-5">
+              <div class="grid grid-cols-3 gap-2.5 sm:gap-4">
+                <div class="bg-black/65 border border-white/15 focus-within:border-sky-400 rounded-2xl p-2.5 sm:p-4 text-center transition">
+                  <label for="inputMin" class="block text-[10px] sm:text-[11px] uppercase tracking-wider text-zinc-400 mb-1">分 (Min)</label>
+                  <input type="number" inputmode="numeric" pattern="[0-9]*" id="inputMin" min="0" max="99" placeholder="00" oninput="onPerformanceInput()"
+                    class="w-full bg-transparent text-center text-2xl sm:text-4xl font-extrabold text-white tabular-nums focus:outline-none">
+                </div>
+                <div class="bg-black/65 border border-white/15 focus-within:border-sky-400 rounded-2xl p-2.5 sm:p-4 text-center transition relative">
+                  <span class="absolute -left-2 top-1/2 -translate-y-1/2 text-zinc-500 font-bold text-lg hidden sm:block">'</span>
+                  <label for="inputSec" class="block text-[10px] sm:text-[11px] uppercase tracking-wider text-zinc-400 mb-1">秒 (Sec)</label>
+                  <input type="number" inputmode="numeric" pattern="[0-9]*" id="inputSec" min="0" max="59" placeholder="11" oninput="onPerformanceInput()"
+                    class="w-full bg-transparent text-center text-2xl sm:text-4xl font-extrabold text-white tabular-nums focus:outline-none">
+                </div>
+                <div class="bg-black/65 border border-white/15 focus-within:border-amber-400 rounded-2xl p-2.5 sm:p-4 text-center transition relative">
+                  <span class="absolute -left-2 top-1/2 -translate-y-1/2 text-zinc-500 font-bold text-lg hidden sm:block">"</span>
+                  <label for="inputHundredths" class="block text-[10px] sm:text-[11px] uppercase tracking-wider text-zinc-400 mb-1">百分秒 (1/100)</label>
+                  <input type="number" inputmode="numeric" pattern="[0-9]*" id="inputHundredths" min="0" max="99" placeholder="05" oninput="onPerformanceInput()"
+                    class="w-full bg-transparent text-center text-2xl sm:text-4xl font-extrabold text-amber-300 tabular-nums focus:outline-none">
+                </div>
+              </div>
+              <div class="text-[11px] text-zinc-400 mt-2.5 flex flex-wrap items-center justify-between gap-2">
+                <span><i class="fa-regular fa-lightbulb text-amber-400 mr-1"></i>短跑項目分鐘可留空；輸入即自動核對</span>
+                <button type="button" onclick="fillDemoRecordBreaker()" id="btnDemoTrackSplit" class="text-sky-400 hover:opacity-80 underline font-semibold py-0.5">一鍵填入破紀錄測試值</button>
+              </div>
+            </div>
+
+            <!-- TRACK INPUT AREA: Mode B (Smart Single String) -->
+            <div id="trackSmartInputBox" class="hidden mb-4 sm:mb-5">
+              <div class="bg-black/65 border border-white/15 focus-within:border-white/50 rounded-2xl p-3.5 sm:p-4 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <label for="inputSmartTime" class="text-[11px] sm:text-xs uppercase tracking-wider text-zinc-400">智能時間格式解析</label>
+                  <span id="smartParsedPreview" class="text-xs text-amber-300 font-mono">等待輸入...</span>
+                </div>
+                <input type="text" inputmode="decimal" id="inputSmartTime" placeholder="例如：11.02 或 00'11&quot;02" oninput="onPerformanceInput()"
+                  class="w-full bg-transparent text-2xl sm:text-3xl font-extrabold text-white tabular-nums focus:outline-none">
+              </div>
+              <div class="text-[11px] text-zinc-400 mt-2.5 flex flex-wrap items-center justify-between gap-2">
+                <span>支援格式：<code class="text-zinc-300">10.98</code>、<code class="text-zinc-300">00'10"98</code>、<code class="text-zinc-300">4:25.10</code></span>
+                <button type="button" onclick="fillDemoRecordBreaker()" class="text-amber-300 hover:opacity-80 underline font-semibold py-0.5">一鍵填入破紀錄測試值</button>
+              </div>
+            </div>
+
+            <!-- FIELD INPUT AREA (Meters) with decimal keypad -->
+            <div id="fieldInputBox" class="hidden mb-4 sm:mb-5">
+              <div class="bg-black/65 border border-white/15 focus-within:border-emerald-400 rounded-2xl p-4 sm:p-5 transition">
+                <label for="inputMeters" class="block text-xs uppercase tracking-wider text-zinc-400 mb-1">田賽成績 — 米 (Meters)</label>
+                <div class="flex items-baseline space-x-3">
+                  <input type="number" inputmode="decimal" step="0.01" min="0" id="inputMeters" placeholder="例如: 7.05" oninput="onPerformanceInput()"
+                    class="w-full bg-transparent text-3xl sm:text-5xl font-extrabold text-white tabular-nums focus:outline-none">
+                  <span class="text-xl sm:text-2xl font-bold text-zinc-400 shrink-0">m (米)</span>
+                </div>
+              </div>
+              <div class="text-[11px] text-zinc-400 mt-2.5 flex flex-wrap items-center justify-between gap-2">
+                <span><i class="fa-solid fa-ruler-horizontal text-amber-400 mr-1"></i>田賽以遠度或高度計算，數值愈大愈佳</span>
+                <button type="button" onclick="fillDemoRecordBreaker()" class="text-amber-300 hover:opacity-80 underline font-semibold py-0.5">一鍵填入破紀錄測試值</button>
+              </div>
+            </div>
+
+            <!-- Optional Athlete Info Input for Keynote Poster -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-3 border-t border-white/10">
+              <div>
+                <label for="inputAthleteName" class="block text-[11px] text-zinc-400 mb-1">運動員姓名 / 接力隊伍 (選填)</label>
+                <div class="relative">
+                  <i class="fa-regular fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs"></i>
+                  <input type="text" id="inputAthleteName" placeholder="例如：陳大文 (高三1)" oninput="onPerformanceInput()"
+                    class="w-full bg-black/40 border border-white/10 focus:border-white/30 rounded-xl pl-9 pr-3 py-2 text-base sm:text-sm text-white focus:outline-none">
+                </div>
+              </div>
+              <div>
+                <label for="inputMeetDate" class="block text-[11px] text-zinc-400 mb-1">比賽日期 / 屆別 (選填)</label>
+                <div class="relative">
+                  <i class="fa-regular fa-calendar absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs"></i>
+                  <input type="text" id="inputMeetDate" value="2026.11" oninput="onPerformanceInput()"
+                    class="w-full bg-black/40 border border-white/10 focus:border-white/30 rounded-xl pl-9 pr-3 py-2 text-base sm:text-sm text-white focus:outline-none tabular-nums">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons Row -->
+          <div class="flex items-center justify-between gap-2.5 mt-5 pt-4 border-t border-white/10">
+            <button type="button" onclick="clearCheckerInputs(true)" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 text-zinc-300 text-xs sm:text-sm font-medium transition shrink-0">
+              <i class="fa-solid fa-rotate-left mr-1.5"></i>重設輸入
+            </button>
+            <button type="button" id="btnAddHonorRoll" onclick="saveToHonorRoll()" disabled
+              class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-black font-extrabold text-xs sm:text-sm shadow-lg shadow-amber-500/20 disabled:opacity-30 disabled:pointer-events-none transition transform active:scale-95">
+              <i class="fa-solid fa-award mr-1.5"></i>加入破紀錄榮譽榜
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 4: LIVE APPLE KEYNOTE VERIFICATION VERDICT CARD
+             Mobile: order-4 (Immediately below input card)
+             Desktop: Right Column Bottom (lg:col-span-5 lg:col-start-8 lg:row-start-2) -->
+        <div id="verdictCard" class="order-4 lg:order-none lg:col-span-5 lg:col-start-8 lg:row-start-2 bento-card p-4 sm:p-7 flex flex-col justify-between relative overflow-hidden">
+          <!-- Top Status Pill -->
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-widest text-zinc-400">LIVE VERIFICATION · 核對結果</span>
+            <span id="verdictStatusBadge" class="px-3 py-1 rounded-full text-xs font-extrabold bg-white/10 text-zinc-300">
+              等待輸入成績
+            </span>
+          </div>
+
+          <!-- Center Keynote Announcement Area -->
+          <div id="verdictBody" class="my-4 sm:my-5 text-center py-1 sm:py-2">
+            <div id="verdictIconBox" class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/5 border border-white/10 mx-auto flex items-center justify-center mb-2.5 sm:mb-3 text-xl sm:text-2xl text-zinc-400">
+              <i class="fa-solid fa-gauge-high"></i>
+            </div>
+            <h3 id="verdictHeadline" class="text-xl sm:text-3xl font-black tracking-tight text-white">
+              請輸入比賽成績以供核對
+            </h3>
+            <p id="verdictSubtitle" class="text-xs sm:text-sm text-zinc-400 mt-1.5 sm:mt-2 max-w-sm mx-auto leading-relaxed">
+              系統將即時與「現有最高紀錄」進行毫秒與厘米級精準比對。
+            </p>
+          </div>
+
+          <!-- Delta Comparison & Visual Bar (Hidden until input) -->
+          <div id="verdictComparisonBox" class="hidden space-y-3.5 sm:space-y-4 pt-3.5 sm:pt-4 border-t border-white/10">
+            <div class="grid grid-cols-3 gap-1.5 sm:gap-2.5 bg-black/50 p-2.5 sm:p-3.5 rounded-2xl border border-white/12 text-center">
+              <div class="border-r border-white/10 pr-1 sm:pr-2">
+                <span class="text-[10px] uppercase tracking-wider text-zinc-400 block">現有最高紀錄</span>
+                <span id="compareOldVal" class="text-sm sm:text-lg font-extrabold text-zinc-200 tabular-nums mt-0.5 block">--</span>
+              </div>
+              <div class="border-r border-white/10 px-1 sm:px-2">
+                <span class="text-[10px] uppercase tracking-wider text-zinc-400 block">本次輸入成績</span>
+                <span id="compareNewVal" class="text-sm sm:text-lg font-black text-white tabular-nums mt-0.5 block">--</span>
+              </div>
+              <div class="pl-1 sm:pl-2">
+                <span class="text-[10px] uppercase tracking-wider text-zinc-400 block">成績差距</span>
+                <span id="compareDeltaVal" class="text-sm sm:text-lg font-black tabular-nums mt-0.5 block">--</span>
+              </div>
+            </div>
+
+            <!-- Visual Progress Comparison Bars -->
+            <div class="space-y-2.5 text-xs">
+              <div>
+                <div class="flex justify-between text-zinc-300 mb-1">
+                  <span class="font-medium">現有最高紀錄基準線</span>
+                  <span id="barOldLabel" class="font-mono font-bold text-zinc-200">--</span>
+                </div>
+                <div class="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                  <div id="barOldFill" class="h-full bg-zinc-400 rounded-full transition-all duration-500" style="width: 80%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-zinc-300 mb-1">
+                  <span id="barNewTitle" class="font-medium">本次輸入新成績</span>
+                  <span id="barNewLabel" class="font-mono text-white font-bold">--</span>
+                </div>
+                <div class="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                  <div id="barNewFill" class="h-full bg-sky-500 rounded-full transition-all duration-500" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 2: SESSION HONOR ROLL (破紀錄榮譽榜)
+         ========================================== -->
+    <section id="honorRollSection" class="scroll-mt-16 mb-10 sm:mb-16 hidden">
+      <div class="bento-card p-4 sm:p-8 border-amber-500/30">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div>
+            <div class="inline-flex items-center space-x-2 text-amber-400 text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-1">
+              <i class="fa-solid fa-crown"></i>
+              <span>KEYNOTE HONOR ROLL · 本次運動會破紀錄榮譽榜</span>
+            </div>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-white">新誕生最高紀錄清單</h2>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button type="button" onclick="copyHonorRollText()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 active:bg-white/20 text-white text-xs font-semibold transition">
+              <i class="fa-regular fa-copy mr-1.5"></i>複製播報稿
+            </button>
+            <button type="button" onclick="clearHonorRoll()" class="px-3 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-semibold transition">
+              清空
+            </button>
+          </div>
+        </div>
+
+        <div id="honorRollGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 3: FULL 1984-2025 DATABASE (CARDS & MATRIX)
+         ========================================== -->
+    <section id="databaseSection" class="scroll-mt-16">
+      <div id="dbMainCard" class="bento-card p-4 sm:p-8">
+        <!-- Header & Controls -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 sm:gap-4 mb-5">
+          <div>
+            <span id="dbArchiveSubtitle" class="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-sky-400 block mb-1">OFFICIAL ARCHIVE · 1984~2025 (僅顯示有舉辦之項目)</span>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
+              教業中學田徑運動會最高紀錄總覽
+            </h2>
+            <p class="text-xs sm:text-sm text-zinc-400 mt-1">
+              點擊任何一張紀錄卡片或表格項目，即可一鍵載入上方核對系統。
+            </p>
+          </div>
+
+          <!-- Search, View Mode & Gender Switch (Mobile Optimized Stack) -->
+          <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5">
+            <!-- Search Input -->
+            <div class="relative flex-1 sm:w-60">
+              <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-xs"></i>
+              <input type="text" id="dbSearchInput" oninput="renderDatabaseSection()" placeholder="搜尋姓名(如:郭曉楠、杜家迎)、項目..."
+                class="w-full bg-black/60 border border-white/15 focus:border-white/40 rounded-xl pl-9 pr-8 py-2.5 sm:py-2 text-sm text-white focus:outline-none">
+              <button type="button" onclick="clearDbSearch()" id="btnClearSearch" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white text-xs p-1">
+                <i class="fa-solid fa-circle-xmark"></i>
+              </button>
+            </div>
+
+            <div class="flex items-center justify-between sm:justify-start gap-2">
+              <!-- Table Gender Switcher -->
+              <div class="bg-black/60 p-1 rounded-xl border border-white/10 flex flex-1 sm:flex-initial">
+                <button type="button" id="dbTabM" onclick="setDbGender('M')" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500 text-white shadow-sm transition">
+                  <i class="fa-solid fa-mars mr-1"></i>男子紀錄
+                </button>
+                <button type="button" id="dbTabF" onclick="setDbGender('F')" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-bold text-zinc-400 hover:text-white transition">
+                  <i class="fa-solid fa-venus mr-1"></i>女子紀錄
+                </button>
+              </div>
+
+              <!-- View Mode Switcher (Bento Cards vs Matrix Table) -->
+              <div class="bg-black/60 p-1 rounded-xl border border-white/10 flex shrink-0">
+                <button type="button" id="btnViewCards" onclick="setDbViewMode('CARDS')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-black transition">
+                  <i class="fa-solid fa-grip sm:mr-1"></i><span class="hidden xs:inline">卡片</span>
+                </button>
+                <button type="button" id="btnViewTable" onclick="setDbViewMode('TABLE')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold text-zinc-400 hover:text-white transition">
+                  <i class="fa-solid fa-table-cells sm:mr-1"></i><span class="hidden xs:inline">總表</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group Filter Bar for Card View + Quick Athlete Chips (Horizontal Swipe on Mobile) -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-5 pb-3.5 border-b border-white/10">
+          <!-- Group Filter Pills for Database View -->
+          <div id="dbGroupFilterBar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <span class="text-xs text-zinc-400 font-semibold mr-1 shrink-0">組別：</span>
+            <button type="button" onclick="setDbGroupFilter('ALL')" id="dbGrpALL" class="px-3 py-1 rounded-full text-xs font-bold bg-white text-black transition shrink-0">全部組別</button>
+            <button type="button" onclick="setDbGroupFilter('A')" id="dbGrpA" class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-zinc-300 hover:bg-white/15 transition shrink-0">A 組</button>
+            <button type="button" onclick="setDbGroupFilter('B')" id="dbGrpB" class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-zinc-300 hover:bg-white/15 transition shrink-0">B 組</button>
+            <button type="button" onclick="setDbGroupFilter('C')" id="dbGrpC" class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-zinc-300 hover:bg-white/15 transition shrink-0">C 組</button>
+            <button type="button" onclick="setDbGroupFilter('D')" id="dbGrpD" class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-zinc-300 hover:bg-white/15 transition shrink-0">D 組</button>
+            <button type="button" onclick="setDbGroupFilter('E')" id="dbGrpE" class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-zinc-300 hover:bg-white/15 transition shrink-0">E 組</button>
+          </div>
+
+          <!-- Multi-record Athlete Spotlight Chips (Single-row horizontal swipe on mobile) -->
+          <div class="flex items-center gap-1.5 text-xs overflow-x-auto no-scrollbar py-0.5">
+            <span class="text-zinc-400 font-medium mr-0.5 shrink-0"><i class="fa-solid fa-star text-amber-400 mr-1"></i>快篩：</span>
+            <button type="button" onclick="quickFilterAthlete('郭曉楠', 'M')" class="px-2.5 py-1 rounded-full bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-400/25 transition shrink-0">郭曉楠</button>
+            <button type="button" onclick="quickFilterAthlete('柯佳梁', 'M')" class="px-2.5 py-1 rounded-full bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-400/25 transition shrink-0">柯佳梁</button>
+            <button type="button" onclick="quickFilterAthlete('陳廷鏗', 'M')" class="px-2.5 py-1 rounded-full bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-400/25 transition shrink-0">陳廷鏗</button>
+            <button type="button" onclick="quickFilterAthlete('杜家迎', 'F')" class="px-2.5 py-1 rounded-full bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-300 border border-fuchsia-400/30 transition shrink-0">杜家迎</button>
+            <button type="button" onclick="quickFilterAthlete('鄭妙思', 'F')" class="px-2.5 py-1 rounded-full bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-300 border border-fuchsia-400/30 transition shrink-0">鄭妙思</button>
+            <button type="button" onclick="quickFilterAthlete('程麗珍', 'F')" class="px-2.5 py-1 rounded-full bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-300 border border-fuchsia-400/30 transition shrink-0">程麗珍</button>
+            <button type="button" onclick="quickFilterAthlete('2025', null)" class="px-2.5 py-1 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 transition shrink-0">2025 新紀錄</button>
+          </div>
+        </div>
+
+        <!-- VIEW 1: ZERO-EMPTY-CELL APPLE BENTO CARDS GRID (DEFAULT, 2-Col on Mobile) -->
+        <div id="dbCardsContainer" class="space-y-6 sm:space-y-8">
+          <!-- Populated dynamically with zero empty slots -->
+        </div>
+
+        <!-- VIEW 2: RESPONSIVE MATRIX TABLE (TOGGLEABLE) -->
+        <div id="dbTableContainer" class="hidden overflow-x-auto rounded-2xl border border-white/10 bg-black/40">
+          <table class="w-full text-left border-collapse min-w-[780px]">
+            <thead>
+              <tr id="dbTableHeadRow" class="border-b border-white/15 bg-white/[0.04] text-xs uppercase tracking-wider text-zinc-300">
+                <!-- Dynamically populated -->
+              </tr>
+            </thead>
+            <tbody id="dbTableBody" class="divide-y divide-white/10 text-sm">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MOBILE FLOATING BOTTOM QUICK NAVIGATION BAR (< sm screens) -->
+  <nav class="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-zinc-950/90 backdrop-blur-2xl border-t border-white/15 safe-bottom-bar">
+    <div class="grid grid-cols-4 gap-1 px-2 pt-1.5">
+      <a href="#step1Card" class="flex flex-col items-center justify-center py-1 text-zinc-300 active:text-white">
+        <i class="fa-solid fa-Sliders text-sm mb-0.5 text-sky-400"></i>
+        <span class="text-[10px] font-bold">1.選項目</span>
+      </a>
+      <a href="#step2Card" class="flex flex-col items-center justify-center py-1 text-zinc-300 active:text-white">
+        <i class="fa-solid fa-keyboard text-sm mb-0.5 text-amber-400"></i>
+        <span class="text-[10px] font-bold">2.輸成績</span>
+      </a>
+      <a href="#honorRollSection" class="flex flex-col items-center justify-center py-1 text-zinc-300 active:text-white relative">
+        <i class="fa-solid fa-trophy text-sm mb-0.5 text-amber-300"></i>
+        <span class="text-[10px] font-bold">榮譽榜</span>
+        <span id="mobileHonorCountBadge" class="absolute top-0.5 right-5 px-1 bg-amber-400 text-black rounded-full text-[9px] font-black hidden">0</span>
+      </a>
+      <a href="#databaseSection" class="flex flex-col items-center justify-center py-1 text-zinc-300 active:text-white">
+        <i class="fa-solid fa-layer-group text-sm mb-0.5 text-fuchsia-400"></i>
+        <span class="text-[10px] font-bold">紀錄總覽</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Toast Notification (Positioned above mobile bottom bar) -->
+  <div id="toastBox" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 left-4 sm:left-auto z-50 transform translate-y-28 opacity-0 transition-all duration-300 pointer-events-none flex justify-center sm:block">
+    <div class="px-4 py-3 rounded-2xl bg-zinc-900/95 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center space-x-2.5 text-xs sm:text-sm text-white">
+      <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toastMessage">已成功複製至剪貼簿</span>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       COMPLETE HISTORICAL DATASET & APP LOGIC
+       ========================================== -->
+  <script>
+    /**
+     * 1. EVENT DEFINITIONS (Track vs Field)
+     * Completely removed unheld events (80m(60)欄, 300m欄)
+     */
+    const EVENTS_META = [
+      // Track Events (徑賽)
+      { id: '50m', name: '50m', type: 'TRACK', defaultMin: 0, genders: ['M', 'F'] },
+      { id: '60m', name: '60m', type: 'TRACK', defaultMin: 0, genders: ['M', 'F'] },
+      { id: '100m', name: '100m', type: 'TRACK', defaultMin: 0, genders: ['M', 'F'] },
+      { id: '200m', name: '200m', type: 'TRACK', defaultMin: 0, genders: ['M', 'F'] },
+      { id: '400m', name: '400m', type: 'TRACK', defaultMin: 0, genders: ['M', 'F'] },
+      { id: '800m', name: '800m', type: 'TRACK', defaultMin: 2, genders: ['M', 'F'] },
+      { id: '1000m', name: '1000m', type: 'TRACK', defaultMin: 3, genders: ['M', 'F'] },
+      { id: '1500m', name: '1500m', type: 'TRACK', defaultMin: 4, genders: ['M', 'F'] },
+      { id: '2000m', name: '2000m', type: 'TRACK', defaultMin: 7, genders: ['M'] },
+      { id: '3000m', name: '3000m', type: 'TRACK', defaultMin: 10, genders: ['M'] },
+      { id: '5000m', name: '5000m', type: 'TRACK', defaultMin: 17, genders: ['M'] },
+      { id: '100m欄', name: '100m欄', type: 'TRACK', defaultMin: 0, genders: ['M'] },
+      { id: '110m欄', name: '110m欄', type: 'TRACK', defaultMin: 0, genders: ['M'] },
+      { id: '400m欄', name: '400m欄', type: 'TRACK', defaultMin: 1, genders: ['M'] },
+      { id: '4x100接力', name: '4x100接力', type: 'TRACK', defaultMin: 0, genders: ['M', 'F'] },
+      { id: '4x400接力', name: '4x400接力', type: 'TRACK', defaultMin: 3, genders: ['M', 'F'] },
+      { id: '4x50接力', name: '4x50接力', type: 'TRACK', defaultMin: 0, genders: ['M', 'F'] },
+      // Field Events (田賽)
+      { id: '跳遠', name: '跳遠', type: 'FIELD', genders: ['M', 'F'] },
+      { id: '三級跳遠', name: '三級跳遠', type: 'FIELD', genders: ['M'] },
+      { id: '跳高', name: '跳高', type: 'FIELD', genders: ['M', 'F'] },
+      { id: '鉛球', name: '鉛球', type: 'FIELD', genders: ['M', 'F'] },
+      { id: '鐵餅', name: '鐵餅', type: 'FIELD', genders: ['M', 'F'] },
+      { id: '標槍', name: '標槍', type: 'FIELD', genders: ['M', 'F'] },
+      { id: '壘球', name: '壘球', type: 'FIELD', genders: ['M', 'F'] }
+    ];
+
+    /**
+     * 2. COMPLETE HISTORICAL DATABASE (1984~2025)
+     * Only includes actually held events with existing records
+     */
+    const RECORDS_DB = {
+      M: {
+        '50m': {
+          E: { holder: '源錦榮', display: '00\'07"99', value: 7.99, date: '2023.11' }
+        },
+        '60m': {
+          C: { holder: '李峻斌', display: '00\'07"82', value: 7.82, date: '2010.11' },
+          D: { holder: '劉灼良', display: '00\'07"97', value: 7.97, date: '2001.11' },
+          E: { holder: '梁皓', display: '00\'10"08', value: 10.08, date: '1986.00' }
+        },
+        '100m': {
+          A: { holder: '文建昇', display: '00\'11"09', value: 11.09, date: '1993.10' },
+          B: { holder: '郭曉楠', display: '00\'11"38', value: 11.38, date: '2023.11' },
+          C: { holder: '郭曉楠', display: '00\'11"08', value: 11.08, date: '2023.03' },
+          D: { holder: '梁毅', display: '00\'14"41', value: 14.41, date: '1993.10' }
+        },
+        '200m': {
+          A: { holder: '郭曉楠', display: '00\'23"25', value: 23.25, date: '2024.11' },
+          B: { holder: '許志豪', display: '00\'24"14', value: 24.14, date: '1996.11' },
+          C: { holder: '郭曉楠', display: '00\'23"66', value: 23.66, date: '2023.03' }
+        },
+        '400m': {
+          A: { holder: '李國雄', display: '00\'54"00', value: 54.00, date: '1999.11' },
+          B: { holder: '李錦鵬', display: '00\'55"90', value: 55.90, date: '2018.11' }
+        },
+        '800m': {
+          A: { holder: '盧照勇', display: '02\'03"73', value: 123.73, date: '1990.12' },
+          B: { holder: '黃子祥', display: '02\'15"09', value: 135.09, date: '2006.11' }
+        },
+        '1000m': {
+          C: { holder: '楊耀煜', display: '03\'22"58', value: 202.58, date: '1984.00' },
+          D: { holder: '劉灼良', display: '03\'39"00', value: 219.00, date: '2001.11' }
+        },
+        '1500m': {
+          A: { holder: '歐陽鍵濤', display: '04\'28"76', value: 268.76, date: '2024.11' },
+          B: { holder: '林偉俊', display: '04\'46"44', value: 286.44, date: '2015.10' },
+          C: { holder: '周啟賢', display: '04\'47"81', value: 287.81, date: '2025.11' }
+        },
+        '2000m': {
+          C: { holder: '戴玉徹', display: '07\'39"51', value: 459.51, date: '1996.11' }
+        },
+        '3000m': {
+          A: { holder: '劉冠傑', display: '10\'24"50', value: 624.50, date: '1994.10' },
+          B: { holder: '樊遠達', display: '10\'50"75', value: 650.75, date: '1998.11' }
+        },
+        '5000m': {
+          A: { holder: '李治強', display: '17\'37"30', value: 1057.30, date: '2004.12' },
+          B: { holder: '樊遠達', display: '19\'25"80', value: 1165.80, date: '1998.11' }
+        },
+        '100m欄': {
+          B: { holder: '羅杰', display: '00\'19"07', value: 19.07, date: '1997.11' }
+        },
+        '110m欄': {
+          A: { holder: '葉志輝', display: '00\'19"00', value: 19.00, date: '1991.12' },
+          B: { holder: '梁偉文', display: '00\'19"81', value: 19.81, date: '1994.10' }
+        },
+        '400m欄': {
+          A: { holder: '鄧啟銳', display: '01\'03"61', value: 63.61, date: '1996.11' }
+        },
+        '4x100接力': {
+          A: { holder: '黃嘉昊、韋家榮、梁月朋、吳梓謙 (高三1)', display: '00\'45"66', value: 45.66, date: '2023.11' },
+          B: { holder: '何梓鏵、黎偉中、姚子聰、梁偉裕 (高一1)', display: '00\'50"95', value: 50.95, date: '2023.03' },
+          C: { holder: '伍家洲、陳廷鏗、江澤浩、劉灝賢 (初二3)', display: '00\'54"34', value: 54.34, date: '2025.11' }
+        },
+        '4x400接力': {
+          A: { holder: '高三乙', display: '03\'52"15', value: 232.15, date: '1996.11' },
+          B: { holder: '吳彥津、施驊泰、林子謙、黎俊熙 (高一4)', display: '4\'09"91', value: 249.91, date: '2025.11' }
+        },
+        '4x50接力': {
+          D: { holder: '梁晉滈、鄧偉傑、邢增進、陳廷鏗 (P6D)', display: '00\'30"03', value: 30.03, date: '2023.11' },
+          E: { holder: '郭曉楠、袁兆駿、盧啟鴻、危俊光 (小四甲)', display: '00\'34"69', value: 34.69, date: '2018.11' }
+        },
+        '跳遠': {
+          A: { holder: '柯佳梁', display: '6.99m', value: 6.99, date: '2025.11' },
+          B: { holder: '柯佳梁', display: '6.44m', value: 6.44, date: '2023.03' },
+          C: { holder: '柯佳梁', display: '5.98m', value: 5.98, date: '2021.12' },
+          D: { holder: '羅子濠', display: '4.30m', value: 4.30, date: '2019.10' },
+          E: { holder: '源錦榮', display: '3.55m', value: 3.55, date: '2023.11' }
+        },
+        '三級跳遠': {
+          A: { holder: '柯佳梁', display: '13.86m', value: 13.86, date: '2025.11' }
+        },
+        '跳高': {
+          A: { holder: '吳梓杰', display: '1.98m', value: 1.98, date: '2020.11' },
+          B: { holder: '吳梓杰', display: '1.80m', value: 1.80, date: '2017.11' },
+          C: { holder: '陳廷鏗', display: '1.73m', value: 1.73, date: '2025.11' },
+          D: { holder: '陳廷鏗', display: '1.50m', value: 1.50, date: '2023.11' },
+          E: { holder: '葉思樂', display: '1.08m', value: 1.08, date: '1993.10' }
+        },
+        '鉛球': {
+          A: { holder: '江宇軒', display: '11.86m', value: 11.86, date: '2023.11' },
+          B: { holder: '蔡崢嶸', display: '11.37m', value: 11.37, date: '2016.10' },
+          C: { holder: '趙嘉明', display: '11.58m', value: 11.58, date: '2015.10' },
+          D: { holder: '何國麟', display: '07.61m', value: 7.61, date: '1999.11' },
+          E: { holder: '甘海富', display: '4.52m', value: 4.52, date: '1996.11' }
+        },
+        '鐵餅': {
+          A: { holder: '趙立志', display: '32.60m', value: 32.60, date: '2002.11' },
+          B: { holder: '李志民', display: '28.85m', value: 28.85, date: '1998.11' },
+          C: { holder: '何國麟', display: '23.94m', value: 23.94, date: '2001.11' }
+        },
+        '標槍': {
+          A: { holder: '趙立志', display: '42.00m', value: 42.00, date: '2002.11' },
+          B: { holder: '林志南', display: '34.50m', value: 34.50, date: '1999.11' }
+        },
+        '壘球': {
+          C: { holder: '林志南', display: '55.03m', value: 55.03, date: '1997.11' },
+          D: { holder: '何國麟', display: '43.32m', value: 43.32, date: '1999.11' },
+          E: { holder: '何國麟', display: '33.60m', value: 33.60, date: '1997.11' }
+        }
+      },
+      F: {
+        '50m': {
+          E: { holder: '余承芯', display: '00\'08"47', value: 8.47, date: '2015.1' }
+        },
+        '60m': {
+          C: { holder: '湯嘉欣', display: '00\'08"70', value: 8.70, date: '2000.11' },
+          D: { holder: '余承芯', display: '00\'09"34', value: 9.34, date: '2016.10' },
+          E: { holder: '梁瑞娟', display: '00\'10"60', value: 10.60, date: '1984.00' }
+        },
+        '100m': {
+          A: { holder: '鄭妙思', display: '00\'13"31', value: 13.31, date: '1998.11' },
+          B: { holder: '施艷', display: '00\'13"44', value: 13.44, date: '1998.11' },
+          C: { holder: '湯嘉欣', display: '00\'13"90', value: 13.90, date: '2001.11' },
+          D: { holder: '施艷', display: '00\'17"05', value: 17.05, date: '1993.10' }
+        },
+        '200m': {
+          A: { holder: '鄭妙思', display: '00\'28"36', value: 28.36, date: '1998.11' },
+          B: { holder: '施艷', display: '00\'28"90', value: 28.90, date: '1998.11' },
+          C: { holder: '余淑欣', display: '00\'30"95', value: 30.95, date: '2016.10' }
+        },
+        '400m': {
+          A: { holder: '鄭妙思', display: '01\'06"85', value: 66.85, date: '1998.11' },
+          B: { holder: '杜家迎', display: '01\'05"93', value: 65.93, date: '1997.11' }
+        },
+        '800m': {
+          A: { holder: '杜家迎', display: '02\'39"94', value: 159.94, date: '2000.11' },
+          B: { holder: '杜家迎', display: '02\'33"60', value: 153.60, date: '1997.11' }
+        },
+        '1000m': {
+          C: { holder: '陳麗芳', display: '04\'02"60', value: 242.60, date: '1993.02' },
+          D: { holder: '林茗妍', display: '03\'56"68', value: 236.68, date: '2025.11' }
+        },
+        '1500m': {
+          A: { holder: '杜家迎', display: '05\'32"12', value: 332.12, date: '2000.11' },
+          B: { holder: '杜家迎', display: '05\'27"79', value: 327.79, date: '1997.11' },
+          C: { holder: '杜家迎', display: '05\'34"97', value: 334.97, date: '1996.11' }
+        },
+        '4x100接力': {
+          A: { holder: '高二甲', display: '01\'00"40', value: 60.40, date: '1990.11' },
+          B: { holder: '高一己', display: '01\'01"57', value: 61.57, date: '2015.10' },
+          C: { holder: '姚穎兒、黃紫璇、蕭慧敏、洪嘉琦 (初二2)', display: '01\'01"31', value: 61.31, date: '2023.11' }
+        },
+        '4x400接力': {
+          A: { holder: '高三乙', display: '05\'01"43', value: 301.43, date: '1996.11' },
+          B: { holder: '李惠瑜、趙穎怡、羅安琪、何思銳 (初三4)', display: '05\'27"08', value: 327.08, date: '2024.11' }
+        },
+        '4x50接力': {
+          D: { holder: '小六乙', display: '00\'32"70', value: 32.70, date: '1995.11' },
+          E: { holder: '小四乙', display: '00\'37"05', value: 37.05, date: '1999.11' }
+        },
+        '跳遠': {
+          A: { holder: '蘇穎妍', display: '4.89m', value: 4.89, date: '2023.11' },
+          B: { holder: '何婉君', display: '4.71m', value: 4.71, date: '2015.1' },
+          C: { holder: '陳樂思', display: '4.22m', value: 4.22, date: '2013.11' },
+          D: { holder: '林茗妍', display: '3.80m', value: 3.80, date: '2025.11' },
+          E: { holder: '程麗珍', display: '3.14m', value: 3.14, date: '2015.10' }
+        },
+        '跳高': {
+          A: { holder: '陳雅雯', display: '1.52m', value: 1.52, date: '2025.11' },
+          B: { holder: '林幸妍', display: '1.40m', value: 1.40, date: '2015.1' },
+          C: { holder: '陳樂思', display: '1.30m', value: 1.30, date: '2013.11' },
+          D: { holder: '程麗珍', display: '1.18m', value: 1.18, date: '2017.11' },
+          E: { holder: '陳開心', display: '1.03m', value: 1.03, date: '1993.10' }
+        },
+        '鉛球': {
+          A: { holder: '林佩琪', display: '9.07m', value: 9.07, date: '2015.1' },
+          B: { holder: '林佩琪', display: '8.21m', value: 8.21, date: '2013.11' },
+          C: { holder: '林芷柔', display: '8.59m', value: 8.59, date: '2025.11' },
+          D: { holder: '董淑婷', display: '5.91m', value: 5.91, date: '1999.11' },
+          E: { holder: '馮雪詠', display: '4.00m', value: 4.00, date: '1997.11' }
+        },
+        '鐵餅': {
+          A: { holder: '李敏儀', display: '22.22m', value: 22.22, date: '1990.12' },
+          B: { holder: '容嘉華', display: '18.51m', value: 18.51, date: '1998.11' }
+        },
+        '標槍': {
+          A: { holder: '容嘉華', display: '18.70m', value: 18.70, date: '2000.11' }
+        },
+        '壘球': {
+          C: { holder: '葉婉珊', display: '28.65m', value: 28.65, date: '1984.00' },
+          D: { holder: '程麗珍', display: '35.00m', value: 35.00, date: '2017.11' },
+          E: { holder: '程麗珍', display: '22.45m', value: 22.45, date: '2015.10' }
+        }
+      }
+    };
+
+    /**
+     * 3. APPLICATION STATE
+     */
+    const state = {
+      gender: 'M',           // 'M' or 'F'
+      group: 'A',            // 'A', 'B', 'C', 'D', 'E'
+      eventId: '100m',       // Event ID (guaranteed to be a held event)
+      eventFilter: 'ALL',    // 'ALL', 'TRACK', 'FIELD'
+      trackInputMode: 'SPLIT', // 'SPLIT' or 'SMART'
+      dbGender: 'M',         // 'M' or 'F' for bottom section
+      dbViewMode: 'CARDS',   // 'CARDS' (zero empty cells) or 'TABLE'
+      dbGroupFilter: 'ALL',  // 'ALL', 'A', 'B', 'C', 'D', 'E'
+      lastEvaluation: null,  // Stores current verification result object
+      honorRoll: [],         // Stores broken records in session
+      lastConfettiKey: ''    // Prevents spamming confetti on same input
+    };
+
+    /**
+     * 4. HELPER FORMATTING & HELD-EVENT FILTER FUNCTIONS
+     */
+    function getHeldEventsForGroup(gender, group, categoryFilter = 'ALL') {
+      return EVENTS_META.filter(e => {
+        const hasRecord = Boolean(RECORDS_DB[gender]?.[e.id]?.[group]);
+        if (!hasRecord) return false;
+        if (categoryFilter !== 'ALL' && e.type !== categoryFilter) return false;
+        return true;
+      });
+    }
+
+    function ensureValidHeldEvent() {
+      const hasCurrent = Boolean(RECORDS_DB[state.gender]?.[state.eventId]?.[state.group]);
+      if (!hasCurrent) {
+        const available = getHeldEventsForGroup(state.gender, state.group, 'ALL');
+        if (available.length > 0) {
+          state.eventId = available[0].id;
+        }
+      }
+    }
+
+    function formatRecordDateReadable(rawDate) {
+      if (!rawDate) return { text: '—', yearsText: '' };
+      const parts = String(rawDate).split('.');
+      const year = parseInt(parts[0], 10);
+      const month = parts[1] ? parseInt(parts[1], 10) : 0;
+      const currentYear = 2026;
+      const diffYears = Math.max(1, currentYear - year);
+      const dateStr = month > 0 ? `${year}年${month}月` : `${year}年`;
+      const yearsLabel = diffYears >= 20 ? `塵封 ${diffYears} 年` : `保持 ${diffYears} 年`;
+      return { text: dateStr, raw: rawDate, yearsText: yearsLabel, diffYears };
+    }
+
+    function formatSecondsToOfficial(totalSeconds) {
+      if (totalSeconds === null || isNaN(totalSeconds) || totalSeconds <= 0) return '--';
+      const mins = Math.floor(totalSeconds / 60);
+      const remSec = totalSeconds - mins * 60;
+      const secs = Math.floor(remSec + 1e-6);
+      const hundredths = Math.round((remSec - secs) * 100);
+
+      const mmStr = String(mins).padStart(2, '0');
+      const ssStr = String(secs).padStart(2, '0');
+      const xxStr = String(hundredths).padStart(2, '0');
+      return `${mmStr}'${ssStr}"${xxStr}`;
+    }
+
+    function parseSmartTimeString(raw) {
+      if (!raw || !raw.trim()) return null;
+      const s = raw.trim();
+
+      // Match official format: 00'11"09 or 01'05"20 or 1'05"20
+      const officialRegex = /^(\d+)['’′:](\d+)(?:["”″.](\d+))?$/;
+      const m1 = s.match(officialRegex);
+      if (m1) {
+        const min = parseInt(m1[1], 10) || 0;
+        const sec = parseInt(m1[2], 10) || 0;
+        const hunStr = (m1[3] || '0').padEnd(2, '0').slice(0, 2);
+        const hun = parseInt(hunStr, 10) || 0;
+        return +(min * 60 + sec + hun / 100).toFixed(2);
+      }
+
+      // Match plain seconds: 11.08 or 23.5
+      if (/^\d+(\.\d+)?$/.test(s)) {
+        return +parseFloat(s).toFixed(2);
+      }
+      return null;
+    }
+
+    function getCurrentEventMeta() {
+      return EVENTS_META.find(e => e.id === state.eventId) || EVENTS_META[0];
+    }
+
+    function getCurrentRecordObj() {
+      const genderDB = RECORDS_DB[state.gender] || {};
+      const eventDB = genderDB[state.eventId] || {};
+      return eventDB[state.group] || null;
+    }
+
+    /**
+     * 5. THEME & UI CONTROLLER FUNCTIONS (Men's Blue vs Women's Pink-Purple)
+     */
+    function applyGenderThemeUI() {
+      const isF = state.gender === 'F';
+      document.body.classList.toggle('theme-female', isF);
+
+      const ambientGlow = document.getElementById('ambientGlow');
+      ambientGlow.classList.toggle('female-mode', isF);
+
+      // Brand logo & nav badge
+      const brandLogo = document.getElementById('brandLogoBox');
+      const navBadge = document.getElementById('navThemeBadge');
+      const heroPillBadge = document.getElementById('heroPillBadge');
+      const heroPingDot = document.getElementById('heroPingDot');
+      const heroPillText = document.getElementById('heroPillText');
+      const step1BadgeNum = document.getElementById('step1BadgeNum');
+      const standingHeroCard = document.getElementById('standingHeroCard');
+      const standingCardOrb = document.getElementById('standingCardOrb');
+      const btnDemoTrackSplit = document.getElementById('btnDemoTrackSplit');
+
+      if (isF) {
+        brandLogo.className = 'w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-fuchsia-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-fuchsia-500/30 shrink-0 transition-all duration-500';
+        navBadge.className = 'text-[9px] sm:text-[10px] uppercase tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full bg-fuchsia-500/20 text-fuchsia-200 font-semibold border border-fuchsia-400/40 shrink-0 transition-all';
+        heroPillBadge.className = 'inline-flex items-center space-x-1.5 sm:space-x-2 px-3 py-1 rounded-full bg-fuchsia-500/15 border border-fuchsia-400/35 text-[11px] sm:text-xs text-fuchsia-200 mb-2.5 sm:mb-4 transition-all duration-500 max-w-full';
+        heroPingDot.className = 'w-2 h-2 rounded-full bg-fuchsia-400 animate-ping shrink-0';
+        heroPillText.textContent = "WOMEN'S DIVISION · 女子組最高紀錄 (1984–2025)";
+        step1BadgeNum.className = 'w-6 h-6 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-300 text-xs font-bold flex items-center justify-center shrink-0';
+        standingHeroCard.classList.remove('bento-card-male-accent');
+        standingHeroCard.classList.add('bento-card-female-accent');
+        standingCardOrb.className = '-right-12 -top-12 w-48 h-48 rounded-full bg-fuchsia-500/25 blur-3xl pointer-events-none absolute transition-all duration-500';
+        if (btnDemoTrackSplit) btnDemoTrackSplit.className = 'text-fuchsia-300 hover:opacity-80 underline font-semibold py-0.5';
+      } else {
+        brandLogo.className = 'w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/25 shrink-0 transition-all duration-500';
+        navBadge.className = 'text-[9px] sm:text-[10px] uppercase tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 font-semibold border border-sky-400/30 shrink-0 transition-all';
+        heroPillBadge.className = 'inline-flex items-center space-x-1.5 sm:space-x-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/25 text-[11px] sm:text-xs text-sky-200 mb-2.5 sm:mb-4 transition-all duration-500 max-w-full';
+        heroPingDot.className = 'w-2 h-2 rounded-full bg-sky-400 animate-ping shrink-0';
+        heroPillText.textContent = "MEN'S DIVISION · 男子組最高紀錄 (1984–2025)";
+        step1BadgeNum.className = 'w-6 h-6 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-bold flex items-center justify-center shrink-0';
+        standingHeroCard.classList.remove('bento-card-female-accent');
+        standingHeroCard.classList.add('bento-card-male-accent');
+        standingCardOrb.className = '-right-12 -top-12 w-44 h-44 rounded-full bg-sky-500/15 blur-3xl pointer-events-none absolute transition-all duration-500';
+        if (btnDemoTrackSplit) btnDemoTrackSplit.className = 'text-sky-400 hover:opacity-80 underline font-semibold py-0.5';
+      }
+
+      updateGroupButtonsUI();
+    }
+
+    function updateGroupButtonsUI() {
+      const activeClass = state.gender === 'F' ? 'active-group-female' : 'active-group-male';
+      ['A', 'B', 'C', 'D', 'E'].forEach(letter => {
+        const btn = document.getElementById(`btnGroup${letter}`);
+        if (letter === state.group) {
+          btn.className = `group-pill seg-pill ${activeClass} py-2.5 rounded-xl font-extrabold text-xs sm:text-sm`;
+        } else {
+          btn.className = 'group-pill seg-pill text-zinc-400 hover:text-white py-2.5 rounded-xl font-extrabold text-xs sm:text-sm';
+        }
+      });
+    }
+
+    function setGender(g) {
+      state.gender = g;
+      document.getElementById('btnGenderM').className = g === 'M'
+        ? 'seg-pill active-male py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5'
+        : 'seg-pill text-zinc-400 hover:text-white py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5';
+      document.getElementById('btnGenderF').className = g === 'F'
+        ? 'seg-pill active-female py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5'
+        : 'seg-pill text-zinc-400 hover:text-white py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5';
+
+      ensureValidHeldEvent();
+      applyGenderThemeUI();
+      renderEventButtons();
+      updateInputVisibility();
+      updateCurrentRecordCard();
+      onPerformanceInput();
+      // Sync bottom database gender
+      setDbGender(g);
+    }
+
+    function setGroup(grp) {
+      state.group = grp;
+      ensureValidHeldEvent();
+      updateGroupButtonsUI();
+      renderEventButtons();
+      updateInputVisibility();
+      updateCurrentRecordCard();
+      onPerformanceInput();
+    }
+
+    function setEventFilter(filter) {
+      state.eventFilter = filter;
+      const map = { ALL: 'filterAll', TRACK: 'filterTrack', FIELD: 'filterField' };
+      Object.keys(map).forEach(k => {
+        const el = document.getElementById(map[k]);
+        if (k === filter) {
+          el.className = state.gender === 'F'
+            ? 'text-xs font-bold px-3 py-1.5 rounded-lg bg-fuchsia-400 text-black transition shrink-0'
+            : 'text-xs font-bold px-3 py-1.5 rounded-lg bg-white text-black transition shrink-0';
+        } else {
+          el.className = 'text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition shrink-0';
+        }
+      });
+
+      const filteredEvents = getHeldEventsForGroup(state.gender, state.group, filter);
+      if (filteredEvents.length > 0 && !filteredEvents.some(e => e.id === state.eventId)) {
+        state.eventId = filteredEvents[0].id;
+        updateInputVisibility();
+        updateCurrentRecordCard();
+        onPerformanceInput();
+      }
+      renderEventButtons();
+    }
+
+    function selectEvent(evtId) {
+      const prevMeta = getCurrentEventMeta();
+      state.eventId = evtId;
+      const newMeta = getCurrentEventMeta();
+
+      renderEventButtons();
+      updateInputVisibility();
+      updateCurrentRecordCard();
+
+      if (prevMeta.type !== newMeta.type) {
+        clearCheckerInputs(false);
+      }
+      onPerformanceInput();
+    }
+
+    function setTrackInputMode(mode) {
+      state.trackInputMode = mode;
+      const btnSplit = document.getElementById('btnModeSplit');
+      const btnSmart = document.getElementById('btnModeSmart');
+
+      if (mode === 'SPLIT') {
+        btnSplit.className = 'px-2.5 py-1 rounded-lg bg-white/15 text-white font-semibold transition';
+        btnSmart.className = 'px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white font-semibold transition';
+      } else {
+        btnSmart.className = 'px-2.5 py-1 rounded-lg bg-white/15 text-white font-semibold transition';
+        btnSplit.className = 'px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white font-semibold transition';
+      }
+      updateInputVisibility();
+      onPerformanceInput();
+    }
+
+    function updateInputVisibility() {
+      const meta = getCurrentEventMeta();
+      const modeToggle = document.getElementById('trackInputModeToggle');
+      const splitBox = document.getElementById('trackSplitInputBox');
+      const smartBox = document.getElementById('trackSmartInputBox');
+      const fieldBox = document.getElementById('fieldInputBox');
+
+      if (meta.type === 'TRACK') {
+        modeToggle.classList.remove('hidden');
+        fieldBox.classList.add('hidden');
+        if (state.trackInputMode === 'SPLIT') {
+          splitBox.classList.remove('hidden');
+          smartBox.classList.add('hidden');
+        } else {
+          splitBox.classList.add('hidden');
+          smartBox.classList.remove('hidden');
+        }
+      } else {
+        modeToggle.classList.add('hidden');
+        splitBox.classList.add('hidden');
+        smartBox.classList.add('hidden');
+        fieldBox.classList.remove('hidden');
+      }
+    }
+
+    /**
+     * Render ONLY held events for the selected Gender + Group
+     */
+    function renderEventButtons() {
+      const container = document.getElementById('eventButtonsContainer');
+      const totalHeldInGroup = getHeldEventsForGroup(state.gender, state.group, 'ALL').length;
+      const filtered = getHeldEventsForGroup(state.gender, state.group, state.eventFilter);
+
+      const groupPrefix = state.gender === 'M' ? '男' : '女';
+      document.getElementById('heldEventsCountLabel').textContent =
+        `${groupPrefix}${state.group} 組共舉辦 ${totalHeldInGroup} 個項目`;
+
+      const selectedChipClass = state.gender === 'F' ? 'selected-female' : 'selected-male';
+
+      container.innerHTML = filtered.map(e => {
+        const isSelected = e.id === state.eventId;
+        const rec = RECORDS_DB[state.gender][e.id][state.group];
+        const dotColor = e.type === 'TRACK'
+          ? (state.gender === 'F' ? 'bg-fuchsia-400' : 'bg-sky-400')
+          : 'bg-emerald-400';
+        const recordBadgeColor = isSelected
+          ? (state.gender === 'F' ? 'text-fuchsia-200' : 'text-sky-200')
+          : 'text-zinc-200';
+
+        return `
+          <button type="button" onclick="selectEvent('${e.id}')"
+            class="event-chip ${isSelected ? selectedChipClass : 'text-zinc-200'} rounded-2xl p-2.5 sm:p-3 text-left flex flex-col justify-between min-h-[64px]">
+            <div class="flex items-center justify-between w-full mb-1">
+              <span class="font-extrabold text-xs sm:text-sm tracking-tight truncate">${e.name}</span>
+              <span class="w-2 h-2 rounded-full ${dotColor} shrink-0"></span>
+            </div>
+            <div class="flex items-baseline justify-between w-full pt-1 border-t border-white/10 gap-1">
+              <span class="text-xs sm:text-base font-black ${recordBadgeColor} tabular-nums shrink-0">${rec.display}</span>
+              <span class="text-[10px] sm:text-[11px] text-zinc-400 truncate" title="${rec.holder}">${rec.holder}</span>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    /**
+     * Update the Ultra-Clear Historical Standing Hero Card + Inline Target Banner
+     */
+    function updateCurrentRecordCard() {
+      const meta = getCurrentEventMeta();
+      const rec = getCurrentRecordObj();
+      const isF = state.gender === 'F';
+      const genderLabel = isF ? '女子組' : '男子組';
+      const groupPrefix = isF ? '女' : '男';
+
+      // Top Selection Pill
+      const selectionPill = document.getElementById('currentSelectionPill');
+      selectionPill.textContent = `${genderLabel} · ${groupPrefix}${state.group} · ${meta.name}`;
+      selectionPill.className = isF
+        ? 'text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-200 transition-all'
+        : 'text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/35 text-sky-200 transition-all';
+
+      // Standing Card Division Tag
+      const standingTag = document.getElementById('standingDivisionTag');
+      standingTag.textContent = `${groupPrefix}${state.group} · ${meta.name}`;
+      standingTag.className = isF
+        ? 'px-2.5 sm:px-3 py-1 rounded-lg text-xs font-black tracking-wide bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-sm'
+        : 'px-2.5 sm:px-3 py-1 rounded-lg text-xs font-black tracking-wide bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-sm';
+
+      // Holder Avatar Icon
+      const holderIcon = document.getElementById('holderAvatarIcon');
+      holderIcon.className = isF
+        ? 'w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-300 flex items-center justify-center shrink-0 text-sm sm:text-base font-bold mt-0.5'
+        : 'w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-sky-500/20 border border-sky-400/40 text-sky-300 flex items-center justify-center shrink-0 text-base font-bold mt-0.5';
+
+      // Badge
+      const badgeEl = document.getElementById('recordTypeBadge');
+      if (meta.type === 'TRACK') {
+        badgeEl.textContent = '徑賽 · 計時 (愈快愈佳)';
+        badgeEl.className = isF
+          ? 'text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 sm:py-1 rounded-full bg-fuchsia-500/15 text-fuchsia-200 border border-fuchsia-400/30'
+          : 'text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 sm:py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-400/30';
+      } else {
+        badgeEl.textContent = '田賽 · 遠/高度 (愈遠/高愈佳)';
+        badgeEl.className = 'text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 sm:py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30';
+      }
+
+      const valEl = document.getElementById('currentRecordValue');
+      const subEl = document.getElementById('currentRecordSubSeconds');
+      const holderEl = document.getElementById('currentRecordHolder');
+      const dateEl = document.getElementById('currentRecordDate');
+      const yearsBadge = document.getElementById('recordStandingYearsBadge');
+
+      if (rec) {
+        valEl.textContent = rec.display;
+        valEl.className = `text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight ${isF ? 'text-female-hero' : 'text-male-hero'} tabular-nums leading-none py-0.5 sm:py-1`;
+
+        if (meta.type === 'TRACK') {
+          subEl.textContent = `折合 ${rec.value.toFixed(2)} 秒`;
+        } else {
+          subEl.textContent = `${rec.value.toFixed(2)} 米 (m)`;
+        }
+
+        holderEl.textContent = rec.holder;
+        const dateInfo = formatRecordDateReadable(rec.date);
+        dateEl.textContent = dateInfo.text;
+        yearsBadge.textContent = dateInfo.yearsText;
+
+        // Update inline target helper inside Step 2 Input Card
+        document.getElementById('inlineTargetGroupEvent').textContent = `${groupPrefix}${state.group} ${meta.name}`;
+        document.getElementById('inlineTargetRecordValue').textContent = `${rec.display} (${rec.holder})`;
+      }
+    }
+
+    /**
+     * 6. REAL-TIME VERIFICATION ENGINE
+     */
+    function getEnteredNumericValue() {
+      const meta = getCurrentEventMeta();
+      if (meta.type === 'TRACK') {
+        if (state.trackInputMode === 'SPLIT') {
+          const mStr = document.getElementById('inputMin').value;
+          const sStr = document.getElementById('inputSec').value;
+          const hStr = document.getElementById('inputHundredths').value;
+
+          if (mStr === '' && sStr === '' && hStr === '') return null;
+          const mins = parseInt(mStr || '0', 10);
+          const secs = parseInt(sStr || '0', 10);
+          const huns = parseInt(hStr || '0', 10);
+          const total = +(mins * 60 + secs + huns / 100).toFixed(2);
+          return total > 0 ? total : null;
+        } else {
+          const raw = document.getElementById('inputSmartTime').value;
+          const parsed = parseSmartTimeString(raw);
+          const previewEl = document.getElementById('smartParsedPreview');
+          if (parsed && parsed > 0) {
+            previewEl.textContent = `已解析：${formatSecondsToOfficial(parsed)} (${parsed.toFixed(2)}s)`;
+            return parsed;
+          } else {
+            previewEl.textContent = raw.trim() ? '格式無法識別' : '等待輸入...';
+            return null;
+          }
+        }
+      } else {
+        const mVal = parseFloat(document.getElementById('inputMeters').value);
+        return (!isNaN(mVal) && mVal > 0) ? +mVal.toFixed(2) : null;
+      }
+    }
+
+    function onPerformanceInput() {
+      const meta = getCurrentEventMeta();
+      const rec = getCurrentRecordObj();
+      const enteredVal = getEnteredNumericValue();
+      const isF = state.gender === 'F';
+
+      const verdictCard = document.getElementById('verdictCard');
+      const statusBadge = document.getElementById('verdictStatusBadge');
+      const iconBox = document.getElementById('verdictIconBox');
+      const headline = document.getElementById('verdictHeadline');
+      const subtitle = document.getElementById('verdictSubtitle');
+      const compBox = document.getElementById('verdictComparisonBox');
+      const btnAddHonor = document.getElementById('btnAddHonorRoll');
+      const ambientGlow = document.getElementById('ambientGlow');
+
+      // Reset classes
+      verdictCard.classList.remove('bento-record-broken', 'bento-record-tied');
+      ambientGlow.classList.remove('gold-mode');
+
+      if (enteredVal === null || !rec) {
+        state.lastEvaluation = null;
+        btnAddHonor.disabled = true;
+        statusBadge.textContent = '等待輸入成績';
+        statusBadge.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-white/10 text-zinc-300';
+        iconBox.className = 'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/5 border border-white/10 mx-auto flex items-center justify-center mb-2.5 sm:mb-3 text-xl sm:text-2xl text-zinc-400';
+        iconBox.innerHTML = '<i class="fa-solid fa-gauge-high"></i>';
+        headline.className = 'text-xl sm:text-3xl font-black tracking-tight text-white';
+        headline.textContent = '請輸入比賽成績以供核對';
+        subtitle.textContent = '系統將即時與「現有最高紀錄」進行毫秒與厘米級精準比對。';
+        compBox.classList.add('hidden');
+        return;
+      }
+
+      const formattedNew = meta.type === 'TRACK'
+        ? formatSecondsToOfficial(enteredVal)
+        : `${enteredVal.toFixed(2)}m`;
+
+      const athleteName = document.getElementById('inputAthleteName').value.trim() || '新紀錄創造者';
+      const meetDate = document.getElementById('inputMeetDate').value.trim() || '2026.11';
+      const groupPrefix = isF ? '女' : '男';
+
+      // Compare against existing record
+      let isBroken = false;
+      let isTied = false;
+      const diffRaw = +(enteredVal - rec.value).toFixed(2);
+
+      if (meta.type === 'TRACK') {
+        if (enteredVal < rec.value - 1e-6) isBroken = true;
+        else if (Math.abs(enteredVal - rec.value) <= 1e-6) isTied = true;
+      } else {
+        if (enteredVal > rec.value + 1e-6) isBroken = true;
+        else if (Math.abs(enteredVal - rec.value) <= 1e-6) isTied = true;
+      }
+
+      compBox.classList.remove('hidden');
+      document.getElementById('compareOldVal').textContent = rec.display;
+      document.getElementById('compareNewVal').textContent = formattedNew;
+      const deltaEl = document.getElementById('compareDeltaVal');
+
+      const absDiff = Math.abs(diffRaw).toFixed(2);
+      const pctChange = ((Math.abs(diffRaw) / rec.value) * 100).toFixed(2);
+
+      if (isBroken) {
+        verdictCard.classList.add('bento-record-broken');
+        ambientGlow.classList.add('gold-mode');
+
+        statusBadge.textContent = 'NEW RECORD · 破最高紀錄！';
+        statusBadge.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-amber-400 text-black shadow-lg shadow-amber-400/30';
+        iconBox.className = 'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-amber-400/20 border border-amber-400/50 mx-auto flex items-center justify-center mb-2.5 sm:mb-3 text-2xl sm:text-3xl text-amber-300 animate-keynote-pulse';
+        iconBox.innerHTML = '<i class="fa-solid fa-trophy"></i>';
+        headline.className = 'text-2xl sm:text-4xl font-black tracking-tight text-gold-pro';
+        headline.textContent = '恭喜！打破最高紀錄';
+
+        const unitWord = meta.type === 'TRACK' ? `快了 ${absDiff} 秒` : `遠/高了 ${absDiff} 米`;
+        subtitle.textContent = `超越 ${rec.date} 由 ${rec.holder} 所創下的 ${rec.display} 紀錄（${unitWord}，提升 ${pctChange}%）！`;
+
+        deltaEl.textContent = meta.type === 'TRACK' ? `-${absDiff}s (快)` : `+${absDiff}m (優)`;
+        deltaEl.className = 'text-sm sm:text-lg font-black text-amber-400 tabular-nums mt-0.5 block';
+
+        // Bars
+        document.getElementById('barOldLabel').textContent = rec.display;
+        document.getElementById('barNewLabel').textContent = `${formattedNew} (破紀錄!)`;
+        document.getElementById('barNewFill').className = 'h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-500';
+
+        if (meta.type === 'TRACK') {
+          document.getElementById('barOldFill').style.width = '100%';
+          const ratio = Math.max(25, Math.min(96, (enteredVal / rec.value) * 100));
+          document.getElementById('barNewFill').style.width = `${ratio}%`;
+        } else {
+          document.getElementById('barNewFill').style.width = '100%';
+          const ratio = Math.max(25, Math.min(96, (rec.value / enteredVal) * 100));
+          document.getElementById('barOldFill').style.width = `${ratio}%`;
+        }
+
+        btnAddHonor.disabled = false;
+        state.lastEvaluation = {
+          status: 'BROKEN',
+          gender: state.gender,
+          group: `${groupPrefix}${state.group}`,
+          eventName: meta.name,
+          newDisplay: formattedNew,
+          newValue: enteredVal,
+          oldDisplay: rec.display,
+          oldHolder: rec.holder,
+          oldDate: rec.date,
+          deltaText: unitWord,
+          athlete: athleteName,
+          date: meetDate
+        };
+
+        // Trigger celebration confetti
+        const confettiKey = `${state.gender}-${state.group}-${state.eventId}-${enteredVal}`;
+        if (state.lastConfettiKey !== confettiKey && typeof confetti === 'function') {
+          state.lastConfettiKey = confettiKey;
+          confetti({
+            particleCount: 55,
+            spread: 65,
+            origin: { y: 0.65 },
+            colors: isF
+              ? ['#ffd60a', '#e879f9', '#f472b6', '#ffffff']
+              : ['#ffd60a', '#ff9f0a', '#ffffff', '#38bdf8']
+          });
+        }
+
+      } else if (isTied) {
+        verdictCard.classList.add('bento-record-tied');
+        statusBadge.textContent = 'TIED RECORD · 平最高紀錄';
+        statusBadge.className = isF
+          ? 'px-3 py-1 rounded-full text-xs font-extrabold bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+          : 'px-3 py-1 rounded-full text-xs font-extrabold bg-sky-500 text-white shadow-lg shadow-sky-500/30';
+        iconBox.className = isF
+          ? 'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-fuchsia-500/20 border border-fuchsia-400/50 mx-auto flex items-center justify-center mb-2.5 sm:mb-3 text-2xl sm:text-3xl text-fuchsia-300'
+          : 'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-sky-500/20 border border-sky-400/50 mx-auto flex items-center justify-center mb-2.5 sm:mb-3 text-2xl sm:text-3xl text-sky-300';
+        iconBox.innerHTML = '<i class="fa-solid fa-handshake-simple"></i>';
+        headline.className = `text-2xl sm:text-4xl font-black tracking-tight ${isF ? 'text-pink-purple-pro' : 'text-blue-pro'}`;
+        headline.textContent = '平大會最高紀錄！';
+        subtitle.textContent = `與 ${rec.holder} 於 ${rec.date} 創下的 ${rec.display} 紀錄完全一致！`;
+
+        deltaEl.textContent = '0.00 (平紀錄)';
+        deltaEl.className = `text-sm sm:text-lg font-black ${isF ? 'text-fuchsia-300' : 'text-sky-400'} tabular-nums mt-0.5 block`;
+
+        document.getElementById('barOldLabel').textContent = rec.display;
+        document.getElementById('barNewLabel').textContent = formattedNew;
+        document.getElementById('barOldFill').style.width = '90%';
+        document.getElementById('barNewFill').className = `h-full ${isF ? 'bg-fuchsia-400' : 'bg-sky-400'} rounded-full transition-all duration-500`;
+        document.getElementById('barNewFill').style.width = '90%';
+
+        btnAddHonor.disabled = false;
+        state.lastEvaluation = {
+          status: 'TIED',
+          gender: state.gender,
+          group: `${groupPrefix}${state.group}`,
+          eventName: meta.name,
+          newDisplay: formattedNew,
+          newValue: enteredVal,
+          oldDisplay: rec.display,
+          oldHolder: rec.holder,
+          oldDate: rec.date,
+          deltaText: '平最高紀錄',
+          athlete: athleteName,
+          date: meetDate
+        };
+
+      } else {
+        // Record stands (Not broken)
+        statusBadge.textContent = 'RECORD STANDS · 未破紀錄';
+        statusBadge.className = 'px-3 py-1 rounded-full text-xs font-extrabold bg-white/10 text-zinc-300';
+        iconBox.className = 'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/5 border border-white/10 mx-auto flex items-center justify-center mb-2.5 sm:mb-3 text-xl sm:text-2xl text-zinc-400';
+        iconBox.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
+        headline.className = 'text-xl sm:text-3xl font-black tracking-tight text-zinc-200';
+        headline.textContent = '未破紀錄，原紀錄保持';
+
+        const missWord = meta.type === 'TRACK' ? `慢了 ${absDiff} 秒` : `尚差 ${absDiff} 米`;
+        subtitle.textContent = `距離 ${rec.holder} (${rec.date}) 的最高紀錄 ${rec.display} ${missWord}。`;
+
+        deltaEl.textContent = meta.type === 'TRACK' ? `+${absDiff}s (慢)` : `-${absDiff}m (未及)`;
+        deltaEl.className = 'text-sm sm:text-lg font-black text-zinc-400 tabular-nums mt-0.5 block';
+
+        document.getElementById('barOldLabel').textContent = rec.display;
+        document.getElementById('barNewLabel').textContent = formattedNew;
+        document.getElementById('barNewFill').className = 'h-full bg-zinc-600 rounded-full transition-all duration-500';
+
+        if (meta.type === 'TRACK') {
+          document.getElementById('barNewFill').style.width = '100%';
+          const ratio = Math.max(25, Math.min(96, (rec.value / enteredVal) * 100));
+          document.getElementById('barOldFill').style.width = `${ratio}%`;
+        } else {
+          document.getElementById('barOldFill').style.width = '100%';
+          const ratio = Math.max(25, Math.min(96, (enteredVal / rec.value) * 100));
+          document.getElementById('barNewFill').style.width = `${ratio}%`;
+        }
+
+        btnAddHonor.disabled = true;
+        state.lastEvaluation = null;
+      }
+    }
+
+    /**
+     * 7. DEMO RECORD BREAKER & RESET HELPERS
+     */
+    function fillDemoRecordBreaker() {
+      const meta = getCurrentEventMeta();
+      const rec = getCurrentRecordObj();
+      if (!rec) return;
+
+      if (meta.type === 'TRACK') {
+        // Beat track record by 0.12s (or 2% for very short sprints)
+        const target = Math.max(0.5, +(rec.value - 0.12).toFixed(2));
+        if (state.trackInputMode === 'SPLIT') {
+          const mins = Math.floor(target / 60);
+          const rem = target - mins * 60;
+          const secs = Math.floor(rem + 1e-6);
+          const huns = Math.round((rem - secs) * 100);
+          document.getElementById('inputMin').value = mins > 0 ? String(mins) : '0';
+          document.getElementById('inputSec').value = String(secs);
+          document.getElementById('inputHundredths').value = String(huns).padStart(2, '0');
+        } else {
+          document.getElementById('inputSmartTime').value = formatSecondsToOfficial(target);
+        }
+      } else {
+        // Beat field record by +0.08m
+        const target = +(rec.value + 0.08).toFixed(2);
+        document.getElementById('inputMeters').value = target.toFixed(2);
+      }
+
+      onPerformanceInput();
+      showToast('已自動填入破紀錄測試成績！');
+    }
+
+    function clearCheckerInputs(showNotification = true) {
+      document.getElementById('inputMin').value = '';
+      document.getElementById('inputSec').value = '';
+      document.getElementById('inputHundredths').value = '';
+      document.getElementById('inputSmartTime').value = '';
+      document.getElementById('inputMeters').value = '';
+      document.getElementById('smartParsedPreview').textContent = '等待輸入...';
+      onPerformanceInput();
+      if (showNotification) {
+        showToast('已重設成績輸入欄');
+      }
+    }
+
+    /**
+     * 8. HONOR ROLL MANAGEMENT & ANNOUNCEMENT COPY
+     */
+    function saveToHonorRoll() {
+      if (!state.lastEvaluation) return;
+      const item = { ...state.lastEvaluation, id: Date.now() };
+      state.honorRoll.unshift(item);
+      renderHonorRoll();
+      showToast(`已加入破紀錄榮譽榜：${item.group} ${item.eventName}`);
+    }
+
+    function removeHonorRollItem(id) {
+      state.honorRoll = state.honorRoll.filter(x => x.id !== id);
+      renderHonorRoll();
+    }
+
+    function clearHonorRoll() {
+      state.honorRoll = [];
+      renderHonorRoll();
+      showToast('已清空榮譽榜清單');
+    }
+
+    function renderHonorRoll() {
+      const section = document.getElementById('honorRollSection');
+      const grid = document.getElementById('honorRollGrid');
+      const topBadge = document.getElementById('honorCountBadge');
+      const mobileBadge = document.getElementById('mobileHonorCountBadge');
+
+      const count = state.honorRoll.length;
+      topBadge.textContent = String(count);
+      if (mobileBadge) {
+        mobileBadge.textContent = String(count);
+        mobileBadge.classList.toggle('hidden', count === 0);
+      }
+
+      if (count === 0) {
+        section.classList.add('hidden');
+        grid.innerHTML = '';
+        return;
+      }
+
+      section.classList.remove('hidden');
+      grid.innerHTML = state.honorRoll.map(item => {
+        const isBroken = item.status === 'BROKEN';
+        const tagClass = isBroken
+          ? 'bg-amber-400 text-black'
+          : 'bg-sky-500 text-white';
+        const tagText = isBroken ? '破最高紀錄' : '平最高紀錄';
+
+        return `
+          <div class="rounded-2xl bg-black/60 border border-amber-400/35 p-4 flex flex-col justify-between relative">
+            <button type="button" onclick="removeHonorRollItem(${item.id})" class="absolute top-3 right-3 text-zinc-500 hover:text-rose-400 text-xs p-1">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div>
+              <div class="flex items-center space-x-2 mb-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black ${tagClass}">${tagText}</span>
+                <span class="text-xs font-extrabold text-zinc-200">${item.group} · ${item.eventName}</span>
+              </div>
+              <div class="text-3xl font-black text-gold-pro tabular-nums my-1">${item.newDisplay}</div>
+              <div class="text-xs text-white font-bold mt-1">
+                <i class="fa-solid fa-user-astronaut text-amber-400 mr-1.5"></i>${item.athlete}
+                <span class="text-zinc-400 font-mono ml-1.5">(${item.date})</span>
+              </div>
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[11px] text-zinc-400">
+              <span>原紀錄：${item.oldDisplay} (${item.oldHolder}, ${item.oldDate})</span>
+              <span class="text-amber-300 font-bold">${item.deltaText}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function copyHonorRollText() {
+      if (state.honorRoll.length === 0) return;
+      const lines = state.honorRoll.map((item, idx) => {
+        const actionWord = item.status === 'BROKEN' ? '打破' : '平';
+        return `【捷報 ${idx + 1}】恭喜 ${item.group} 組 ${item.athlete} 於「${item.eventName}」項目以 ${item.newDisplay} 的驕人成績，${actionWord}大會最高紀錄！（原紀錄為 ${item.oldHolder} 於 ${item.oldDate} 創下的 ${item.oldDisplay}，${item.deltaText}）`;
+      });
+      const fullText = `🏆 教業中學田徑運動會 — 最新破紀錄榮譽榜捷報 🏆\n\n` + lines.join('\n\n');
+
+      const textarea = document.createElement('textarea');
+      textarea.value = fullText;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('已複製大會司儀播報稿至剪貼簿！');
+      } catch (e) {
+        showToast('複製失敗，請手動選取');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    /**
+     * 9. FULL DATABASE EXPLORER (ZERO-EMPTY-CELL BENTO CARDS & MATRIX TABLE)
+     */
+    function setDbViewMode(mode) {
+      state.dbViewMode = mode;
+      const btnCards = document.getElementById('btnViewCards');
+      const btnTable = document.getElementById('btnViewTable');
+      const cardsBox = document.getElementById('dbCardsContainer');
+      const tableBox = document.getElementById('dbTableContainer');
+      const groupFilterBar = document.getElementById('dbGroupFilterBar');
+
+      if (mode === 'CARDS') {
+        btnCards.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-black transition';
+        btnTable.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold text-zinc-400 hover:text-white transition';
+        cardsBox.classList.remove('hidden');
+        tableBox.classList.add('hidden');
+        groupFilterBar.classList.remove('hidden');
+      } else {
+        btnTable.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-black transition';
+        btnCards.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold text-zinc-400 hover:text-white transition';
+        cardsBox.classList.add('hidden');
+        tableBox.classList.remove('hidden');
+        groupFilterBar.classList.add('hidden');
+      }
+      renderDatabaseSection();
+    }
+
+    function setDbGroupFilter(grp) {
+      state.dbGroupFilter = grp;
+      ['ALL', 'A', 'B', 'C', 'D', 'E'].forEach(g => {
+        const btn = document.getElementById(`dbGrp${g}`);
+        if (g === grp) {
+          btn.className = state.dbGender === 'F'
+            ? 'px-3 py-1 rounded-full text-xs font-bold bg-fuchsia-400 text-black transition shrink-0'
+            : 'px-3 py-1 rounded-full text-xs font-bold bg-white text-black transition shrink-0';
+        } else {
+          btn.className = 'px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-zinc-300 hover:bg-white/15 transition shrink-0';
+        }
+      });
+      renderDatabaseSection();
+    }
+
+    function setDbGender(g) {
+      state.dbGender = g;
+      document.getElementById('dbTabM').className = g === 'M'
+        ? 'flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500 text-white shadow-sm transition'
+        : 'flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-bold text-zinc-400 hover:text-white transition';
+      document.getElementById('dbTabF').className = g === 'F'
+        ? 'flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-fuchsia-600 to-pink-500 text-white shadow-sm transition'
+        : 'flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-bold text-zinc-400 hover:text-white transition';
+
+      const subtitle = document.getElementById('dbArchiveSubtitle');
+      subtitle.className = g === 'F'
+        ? 'text-[11px] sm:text-xs font-bold uppercase tracking-widest text-fuchsia-400 block mb-1'
+        : 'text-[11px] sm:text-xs font-bold uppercase tracking-widest text-sky-400 block mb-1';
+
+      setDbGroupFilter(state.dbGroupFilter);
+    }
+
+    function quickFilterAthlete(keyword, genderOverride) {
+      if (genderOverride) {
+        setDbGender(genderOverride);
+      }
+      const input = document.getElementById('dbSearchInput');
+      input.value = keyword;
+      renderDatabaseSection();
+    }
+
+    function clearDbSearch() {
+      document.getElementById('dbSearchInput').value = '';
+      renderDatabaseSection();
+    }
+
+    function loadFromTableCell(gender, group, eventId) {
+      if (!RECORDS_DB[gender]?.[eventId]?.[group]) return;
+      state.gender = gender;
+      state.group = group;
+      state.eventId = eventId;
+
+      document.getElementById('btnGenderM').className = gender === 'M'
+        ? 'seg-pill active-male py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5'
+        : 'seg-pill text-zinc-400 hover:text-white py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5';
+      document.getElementById('btnGenderF').className = gender === 'F'
+        ? 'seg-pill active-female py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5'
+        : 'seg-pill text-zinc-400 hover:text-white py-2.5 px-3 rounded-xl font-bold text-sm flex items-center justify-center space-x-1.5';
+
+      applyGenderThemeUI();
+      renderEventButtons();
+      updateInputVisibility();
+      updateCurrentRecordCard();
+      onPerformanceInput();
+
+      // On mobile, scroll directly to the Standing Hero Card so the user sees the loaded record & input right below
+      const targetEl = window.innerWidth < 1024
+        ? document.getElementById('standingHeroCard')
+        : document.getElementById('checkerSection');
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      showToast(`已載入：${gender === 'M' ? '男' : '女'}${group} · ${eventId}`);
+    }
+
+    function renderDatabaseSection() {
+      const query = document.getElementById('dbSearchInput').value.trim().toLowerCase();
+      const btnClear = document.getElementById('btnClearSearch');
+      if (query) btnClear.classList.remove('hidden');
+      else btnClear.classList.add('hidden');
+
+      if (state.dbViewMode === 'CARDS') {
+        renderDatabaseCards(query);
+      } else {
+        renderDatabaseTable(query);
+      }
+    }
+
+    /**
+     * Render Zero-Empty-Cell Bento Cards grouped by Age Division (A ~ E)
+     * 2 columns on mobile so users don't have to scroll endlessly!
+     */
+    function renderDatabaseCards(query) {
+      const g = state.dbGender;
+      const isF = g === 'F';
+      const prefix = isF ? '女' : '男';
+      const container = document.getElementById('dbCardsContainer');
+      const groupsToRender = state.dbGroupFilter === 'ALL' ? ['A', 'B', 'C', 'D', 'E'] : [state.dbGroupFilter];
+
+      const sectionsHtml = groupsToRender.map(grp => {
+        const heldEvents = getHeldEventsForGroup(g, grp, 'ALL').filter(ev => {
+          if (!query) return true;
+          const r = RECORDS_DB[g][ev.id][grp];
+          return ev.name.toLowerCase().includes(query) ||
+                 r.holder.toLowerCase().includes(query) ||
+                 r.display.toLowerCase().includes(query) ||
+                 r.date.toLowerCase().includes(query);
+        });
+
+        if (heldEvents.length === 0) return '';
+
+        const groupBadgeClass = isF
+          ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-md shadow-fuchsia-500/20'
+          : 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md shadow-sky-500/20';
+
+        const cardsHtml = heldEvents.map(ev => {
+          const r = RECORDS_DB[g][ev.id][grp];
+          const isCurrentSelected = (state.gender === g && state.group === grp && state.eventId === ev.id);
+          const dateInfo = formatRecordDateReadable(r.date);
+
+          const cardBorderClass = isCurrentSelected
+            ? (isF ? 'border-fuchsia-400 bg-fuchsia-500/15 ring-1 ring-fuchsia-400' : 'border-sky-400 bg-sky-500/15 ring-1 ring-sky-400')
+            : (isF ? 'border-white/10 hover:border-fuchsia-400/50 bg-black/50' : 'border-white/10 hover:border-sky-400/50 bg-black/50');
+
+          const scoreGradientClass = isF ? 'text-female-hero' : 'text-male-hero';
+          const eventBadgeClass = ev.type === 'TRACK'
+            ? (isF ? 'bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-400/30' : 'bg-sky-500/15 text-sky-300 border-sky-400/30')
+            : 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30';
+
+          return `
+            <div onclick="loadFromTableCell('${g}', '${grp}', '${ev.id}')"
+              class="rounded-2xl border ${cardBorderClass} p-3 sm:p-4 cursor-pointer transition-all duration-200 active:scale-[0.98] sm:hover:-translate-y-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="text-xs sm:text-base font-extrabold text-white tracking-tight truncate">${ev.name}</span>
+                  <span class="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full border shrink-0 ${eventBadgeClass}">
+                    ${ev.type === 'TRACK' ? '徑賽' : '田賽'}
+                  </span>
+                </div>
+                <div class="text-xl sm:text-3xl lg:text-4xl font-black ${scoreGradientClass} tabular-nums tracking-tight my-1">
+                  ${r.display}
+                </div>
+              </div>
+
+              <div class="pt-2 sm:pt-3 mt-1.5 sm:mt-2 border-t border-white/10 flex items-end justify-between gap-1.5">
+                <div class="min-w-0 flex-1">
+                  <span class="text-[9px] sm:text-[10px] text-zinc-400 block">保持者</span>
+                  <span class="text-[11px] sm:text-sm font-bold text-white truncate block" title="${r.holder}">${r.holder}</span>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="text-[9px] sm:text-[10px] text-zinc-400 hidden xs:block">${dateInfo.yearsText}</span>
+                  <span class="text-[10px] sm:text-xs font-mono font-bold text-zinc-300">${r.date}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="space-y-2.5 sm:space-y-3">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2">
+              <div class="flex items-center space-x-2">
+                <span class="px-3 py-1 rounded-xl text-xs sm:text-sm font-black ${groupBadgeClass}">${prefix} ${grp} 組</span>
+                <span class="text-xs text-zinc-400 font-medium">共 ${heldEvents.length} 個舉辦項目</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
+              ${cardsHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = sectionsHtml || `
+        <div class="py-12 text-center text-zinc-500 text-sm">
+          找不到符合「${query}」的紀錄，請嘗試其他關鍵字。
+        </div>
+      `;
+    }
+
+    function renderDatabaseTable(query = '') {
+      const g = state.dbGender;
+      const isF = g === 'F';
+      const prefix = isF ? '女' : '男';
+
+      // Render Table Header
+      const headRow = document.getElementById('dbTableHeadRow');
+      const headerBadgeClass = isF ? 'bg-fuchsia-500/20 text-fuchsia-200 border border-fuchsia-400/30' : 'bg-sky-500/20 text-sky-200 border border-sky-400/30';
+      headRow.innerHTML = `
+        <th class="py-3 px-3 sm:px-4 font-extrabold text-white sticky left-0 bg-zinc-950/95 backdrop-blur-md z-10 border-r border-white/10 w-28 sm:w-32">舉辦項目 \\ 組別</th>
+        ${['A', 'B', 'C', 'D', 'E'].map(grp => `
+          <th class="py-3 px-3 sm:px-4 font-extrabold text-center border-r border-white/10 last:border-r-0">
+            <span class="inline-block px-2.5 sm:px-3 py-0.5 rounded-full ${headerBadgeClass}">${prefix} ${grp}</span>
+          </th>
+        `).join('')}
+      `;
+
+      // Render Table Body
+      const tbody = document.getElementById('dbTableBody');
+      const eventsForGender = EVENTS_META.filter(e => {
+        if (!e.genders.includes(g)) return false;
+        const hasAny = ['A', 'B', 'C', 'D', 'E'].some(grp => Boolean(RECORDS_DB[g]?.[e.id]?.[grp]));
+        return hasAny;
+      });
+
+      const rowsHtml = eventsForGender.map(ev => {
+        const rowRecords = RECORDS_DB[g]?.[ev.id] || {};
+
+        if (query) {
+          const eventMatch = ev.name.toLowerCase().includes(query);
+          const cellMatch = ['A', 'B', 'C', 'D', 'E'].some(grp => {
+            const r = rowRecords[grp];
+            if (!r) return false;
+            return r.holder.toLowerCase().includes(query) ||
+                   r.display.toLowerCase().includes(query) ||
+                   r.date.toLowerCase().includes(query);
+          });
+          if (!eventMatch && !cellMatch) return '';
+        }
+
+        const isSelectedEvent = (state.gender === g && state.eventId === ev.id);
+
+        const cellsHtml = ['A', 'B', 'C', 'D', 'E'].map(grp => {
+          const r = rowRecords[grp];
+          const isCurrentActiveCell = isSelectedEvent && state.group === grp;
+          const highlightMatch = query && r && (
+            r.holder.toLowerCase().includes(query) ||
+            r.display.toLowerCase().includes(query) ||
+            r.date.toLowerCase().includes(query)
+          );
+
+          if (!r) {
+            return `
+              <td class="p-2.5 sm:p-3 text-center border-r border-white/5 last:border-r-0 bg-black/40 select-none">
+                <span class="text-[11px] text-zinc-700 font-medium">不設此項</span>
+              </td>
+            `;
+          }
+
+          const activeRing = isF ? 'bg-fuchsia-500/20 ring-1 ring-inset ring-fuchsia-400' : 'bg-sky-500/20 ring-1 ring-inset ring-sky-400';
+
+          return `
+            <td onclick="loadFromTableCell('${g}', '${grp}', '${ev.id}')"
+              class="p-2.5 sm:p-3.5 border-r border-white/5 last:border-r-0 cursor-pointer hover:bg-white/[0.08] transition align-top ${
+                isCurrentActiveCell
+                  ? activeRing
+                  : highlightMatch
+                    ? 'bg-amber-500/15 ring-1 ring-inset ring-amber-400/50'
+                    : ''
+              }">
+              <div class="flex flex-col justify-between h-full">
+                <div class="font-black ${isF ? 'text-fuchsia-200' : 'text-sky-200'} text-sm sm:text-lg tabular-nums tracking-tight">${r.display}</div>
+                <div class="text-xs text-white font-bold mt-1 leading-snug line-clamp-2" title="${r.holder}">${r.holder}</div>
+                <div class="text-[10px] sm:text-[11px] text-zinc-400 font-mono mt-1">${r.date}</div>
+              </div>
+            </td>
+          `;
+        }).join('');
+
+        return `
+          <tr class="hover:bg-white/[0.02] transition">
+            <td class="py-2.5 px-3 sm:px-4 font-bold text-white sticky left-0 bg-zinc-950/95 backdrop-blur-md z-10 border-r border-white/10 text-xs sm:text-sm">
+              <div class="flex items-center justify-between gap-1">
+                <span>${ev.name}</span>
+                <span class="w-2 h-2 rounded-full shrink-0 ${ev.type === 'TRACK' ? (isF ? 'bg-fuchsia-400' : 'bg-sky-400') : 'bg-emerald-400'}"></span>
+              </div>
+            </td>
+            ${cellsHtml}
+          </tr>
+        `;
+      }).join('');
+
+      tbody.innerHTML = rowsHtml || `
+        <tr>
+          <td colspan="6" class="py-12 text-center text-zinc-500">
+            找不到符合「${query}」的紀錄，請嘗試其他關鍵字。
+          </td>
+        </tr>
+      `;
+    }
+
+    /**
+     * 10. TOAST NOTIFICATION
+     */
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMessage').textContent = msg;
+      box.classList.remove('translate-y-28', 'opacity-0');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add('translate-y-28', 'opacity-0');
+      }, 2600);
+    }
+
+    /**
+     * INITIALIZE ON LOAD
+     */
+    window.onload = function () {
+      ensureValidHeldEvent();
+      applyGenderThemeUI();
+      renderEventButtons();
+      updateInputVisibility();
+      updateCurrentRecordCard();
+      renderDatabaseSection();
+    };
+  </script>
+</body>
+</html>
